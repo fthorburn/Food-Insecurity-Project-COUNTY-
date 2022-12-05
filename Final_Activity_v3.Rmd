@@ -1,0 +1,609 @@
+---
+title: "Final_Activity_v3"
+author: "Foster Thorburn"
+date: "2022-11-30"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries}
+#edit test
+library(ggplot2)
+library(dplyr)
+library(RWDataPlyr)
+library(readxl)
+library(skimr)
+library(forcats)
+library(janitor)
+library(stringr)
+library(tidyr)
+library(ggthemes)
+```
+
+## Data Dictionary (after recoding)
+```{r}
+
+variable <- c("FIPS_code", "GTCSA", "Stabr", "Age", "Race", "Sex", 
+                     "Marital_status", "High_Lvl_Degree", "twelveM_Household_FI", "twelveM_Household_FI_Rasche", "FI_orNot")
+
+description <- c("Unique County Code", "Consolidated Statistical Area (CSA) FIPS code", "Abreviated State Name", "Age", "Race", "Sex", "Marital Status","Highest Level Ed. Degree Completeed", "Household Food Security Scale, 12-Month Reference Period", "Food Security Rasch Scale Score, 
+12-Month Recall", "High Food Insecurity or not")
+
+type <- c("Categorical", "Categorical", "Categorical", "Quantitative", "Categorical", "Categorical", "Categorical", "Categorical", "Quantitative", "Categorical", "Categrorical")
+
+data_dec21_dictionary <- data.frame(variable, description, type)
+
+data_dec21_dictionary
+  
+```
+
+
+
+## Reading in Current Population Survey, December 2021: Food Security Supplement
+```{r data}
+
+# Read in csv file
+dec21pub <- read.csv("C:/Users/foste/Desktop/418 final project folder/dec21pub.csv")
+
+```
+
+Subsetting Food Sumplement data set for variables          
+```{r 2}
+data_dec21 <- select(dec21pub, GTCO, GTCSA, PRTAGE, PTDTRACE, PESEX, 
+                     PEMARITL, GESTFIPS, PEEDUCA, HRFS12M4, HRFS12M1, HRFS12MD)
+
+#removing old F.S data sets
+rm(dec21pub)
+
+```
+
+
+Creating unique County FIPS codes
+```{r}
+                            #state    #county
+# Unique County FIPS code = [GESTFIPS][GTCO]
+
+#SATE-CODE
+
+#test var holds the value of the length of the state code
+data_dec21 <- data_dec21 %>% 
+          mutate(test_var = nchar(as.character(factor(GESTFIPS))))
+
+#code to add one zero to the front of the state code if there is only one value, if there is two adds nothing
+data_dec21 <- data_dec21 %>% 
+  mutate(test_var2 = ifelse(data_dec21$test_var == 1, paste("0",data_dec21$GESTFIPS,sep=""),data_dec21$GESTFIPS))
+
+
+#COUNTY-CODE
+
+#test_var_county holds the value of the length of the county code
+data_dec21 <- data_dec21 %>% 
+          mutate(test_var_county = nchar(as.character(factor(GTCO))))
+
+
+#code to add one zero to the front of the county code if there is less than or equal to two values 
+  data_dec21 <- data_dec21 %>% 
+  mutate(test_var2_county = ifelse(data_dec21$test_var_county <= 2, paste("0",data_dec21$GTCO,sep=""),data_dec21$GTCO))
+
+#Reruning the counter variable to find the length of the updated county code
+data_dec21 <- data_dec21 %>% 
+          mutate(test_var_county = nchar(test_var2_county))
+
+#Iterating a second time to add another zero if there's only two values, otherwise leave value be  
+data_dec21 <- data_dec21 %>% 
+  mutate(test_var2_county = ifelse(data_dec21$test_var_county <= 2, paste("0",data_dec21$test_var2_county,sep=""),data_dec21$test_var2_county))
+
+#UNIQUE-COUNTY CODE
+
+data_dec21 <- data_dec21 %>% 
+          mutate(FIPS_code = paste(test_var2,test_var2_county,sep=""))
+
+
+
+#example function
+#my_funct <- function() {
+#  print("test")
+#}
+
+```
+
+
+Re-coding Demographic Variables
+```{r} 
+
+
+#Replacing -1 values with NA for entire data set
+data_dec21 <- data_dec21 %>%
+                  mutate(across(everything(), ~na_if(str_trim(.x), "-1")))
+#Replacing -9 values with NA for entire data set
+data_dec21 <- data_dec21 %>%
+                  mutate(across(everything(), ~na_if(str_trim(.x), "-9")))
+#Replacing -6 values with NA for entire data set
+data_dec21 <- data_dec21 %>%
+                  mutate(across(everything(), ~na_if(str_trim(.x), "-6")))
+
+#Recoding CSA Area variable
+data_dec21 <- data_dec21 %>% 
+  mutate(CSA_Area = factor(GTCSA) %>% 
+    fct_recode(
+      "Grand Rapids-Wyoming" = "24340",
+      "Detroit-Warren-Dearborn" = "24340",
+      "Ann Arbor" = "11460",
+      "Lansing-East Lansing" = "29620"))
+
+#Re-coding marital status variable
+data_dec21 <- data_dec21 %>% 
+  mutate(Marital_status = factor(PEMARITL) %>% 
+    fct_recode(
+      "MARRIED - SPOUSE PRESENT" = "1",
+      "MARRIED - SPOUSE ABSENT" = "2",
+      "WIDOWED" = "3",
+      "DIVORCED" = "4",
+      "SEPARATED" = "5",
+      "NEVER MARRIED" = "6"))
+
+#Re-coding highest complete degree variable
+data_dec21 <- data_dec21 %>% 
+  mutate(High_Lvl_Degree = factor(PEEDUCA) %>% 
+    fct_recode(
+      "Less than H.S or GED" = "31",
+      "Less than H.S or GED" = "32",
+      "Less than H.S or GED" = "33",
+      "Less than H.S or GED" = "34",
+      "Less than H.S or GED" = "35",
+      "Less than H.S or GED" = "36",
+      "Less than H.S or GED" = "37",
+      "Less than H.S or GED" = "31",
+      "Less than H.S or GED" = "38",
+      "H.S or GED" = "39", 
+      "H.S or GED" = "40",
+      "Associate's" = "41",
+      "Associate's" = "42",
+      "Bachelor's" = "43",
+      "Master's" = "44",
+      "Professional" = "45",
+      "Doctorate" = "46"))
+
+
+#Makes state variable GESTFIPS into character
+data_dec21$GESTFIPS <- as.character(data_dec21$GESTFIPS)
+#summary(data_dec21$GESTFIPS)
+
+#Changing data set to make a new column called "Stabr" which is the state abreviation
+data_dec21 <- data_dec21 %>%
+                   mutate(Stabr = factor(GESTFIPS) %>%
+                     fct_recode( 
+           "AL" = "1", 
+           "AK" = "2", 
+           "AZ" = "4",
+           "AR" = "5",
+           "CA" = "6",
+           "CO" = "8",
+           "CT" = "9",
+           "DE" = "10",
+           "DC" = "11",
+           "FL" = "12",
+           "GA" = "13",
+           "HI" = "15",
+           "ID" = "16",
+           "IL" = "17",
+           "IN" = "18",
+           "IA" = "19",
+           "KS" = "20",
+           "KY" = "21",
+           "LA" = "22",
+           "ME" = "23",
+           "MD" = "24",
+           "MA" = "25",
+           "MI" = "26",
+           "MN" = "27",
+           "MS" = "28",
+           "MO" = "29",
+           "MT" = "30",
+           "ME" = "31",
+           "MV" = "32",
+           "NH" = "33",
+           "NJ" = "34",
+           "NM" = "35",
+           "NY" = "36",
+           "NC" = "37",
+           "ND" = "38",
+           "OH" = "39",
+           "OK" = "40",
+           "OR" = "41",
+           "PA" = "42",
+           "RI" = "44",
+           "SC" = "45",
+           "SD" = "46",
+           "TN" = "47",
+           "TX" = "48",
+           "UT" = "49",
+           "VT" = "50",
+           "VA" = "51",
+           "WA" = "53",
+           "WV" = "54",
+           "WI" = "55",
+           "WY" = "56"))
+
+#data_dec21 <- data_dec21 %>%
+#                   mutate(new_name = factor(oldname) %>%
+#                     fct_recode( 
+#           "new_level" = "old_level")
+
+
+
+#Recoding Race Variable 
+
+data_dec21$PTDTRACE <- as.character(data_dec21$PTDTRACE)
+
+data_dec21 <- data_dec21 %>% 
+  mutate(Race = factor(PTDTRACE) %>% 
+    fct_recode(
+      "White Only" = "1",
+      "Black Only" = "2",
+      "American Indian, Alaskan Native Only" = "3",
+      "Aisan Only" = "4",
+      "Hawaiian/Pacific Islander Only" = "5",
+      "White-Black" = "6",
+      "White-AI" = "7",
+      "White-Asian" = "8", 
+      "White-HP" = "9",
+      "Black-AI" = "10",
+      "Black-Asian" = "11",
+      "Black-HP" = "12",
+      "AI-Asian" = "13",
+      "AI-HP" = "14",
+      "Asian-HP" = "15",
+      "3+ mixed-race" = "16",
+      "3+ mixed-race" = "17", 
+      "3+ mixed-race" = "18", 
+      "3+ mixed-race" = "19", 
+      "3+ mixed-race" = "20", 
+      "3+ mixed-race" = "21", 
+      "3+ mixed-race" = "22", 
+      "3+ mixed-race" = "23", 
+      "3+ mixed-race" = "24", 
+      "3+ mixed-race" = "25", 
+      "3+ mixed-race" = "26"))
+
+
+
+#Mutating to re-code Sex Variable 
+data_dec21 <- data_dec21 %>% 
+  mutate(Sex = factor(PESEX) %>% 
+    fct_recode(
+      "Male" = "1",
+      "Female" = "2"))     
+
+#Mutating to recode Age variable
+ data_dec21 <- data_dec21 %>% 
+  mutate(Age = as.numeric(factor(PRTAGE)))
+ 
+
+                  
+```
+Re-coding Food Security Measures
+```{r}
+#Mutating to re code Main food insecurity measure variable
+ data_dec21 <- data_dec21 %>% 
+  mutate(twelveM_Household_FI = factor(HRFS12M1) %>% 
+           fct_recode(
+             "Food Secure High or Marginal Food Security" = "1",
+             "Low Food Security" = "2",
+             "Very Low Food Security" = "3"))
+ 
+ #Mutating to recode food insecurity scale Rasche variable
+ data_dec21 <- data_dec21 %>% 
+  mutate(twelveM_Household_FI_Rasche = factor(HRFS12M4))
+ #Making the Rasche variable numeric so it can be graphed
+ 
+ data_dec21$twelveM_Household_FI_Rasche <- as.numeric(as.character(data_dec21$twelveM_Household_FI_Rasche))
+ 
+ 
+ #Mutating to re code food insecurity variable which combines the main food insecurity measure into food insecure or not
+ data_dec21 <- data_dec21 %>% 
+  mutate(FI_orNot = factor(HRFS12MD) %>% 
+           fct_recode(
+             "High Food Security" = "1",
+             "Food Insecure" = "2",
+             "Food Insecure" = "3",
+             "Food Insecure" = "4"))
+```
+
+
+Re-selecting Re-coded Variables for new data set
+
+```{r}
+
+data_dec21 <- select(data_dec21,FIPS_code, GTCSA, Stabr, Age, Race, Sex, 
+                     Marital_status, High_Lvl_Degree, twelveM_Household_FI, twelveM_Household_FI_Rasche, FI_orNot)
+
+
+
+
+```
+
+Summary Statistics of characteristic variables
+
+```{r}
+#Age
+summary(data_dec21$Age)
+
+hist(data_dec21$Age, main = "Histogram of Age")
+
+#Race
+
+summary(data_dec21$Race)
+
+data_dec21 %>%  filter(!is.na(Race)) %>% ggplot(aes(x = Race)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels 
+  labs(title = "Histogram of Race Counts", x = "Race", caption = "Source: Current Population Survey Food Security Supplements")
+
+
+#Sex
+data_dec21 %>%  filter(!is.na(Sex)) %>% ggplot(aes(x = Sex)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
+  labs(title = "Histogram of Sex Counts", x = "Sex", caption = "Source: Current Population Survey Food Security Supplements")
+
+
+#Marital Status
+data_dec21 %>%  filter(!is.na(Marital_status)) %>% ggplot(aes(x = Marital_status)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
+  labs(title = "Histogram of Marital Status Counts", x = "Marital Status", caption = "Source: Current Population Survey Food Security Supplements")
+
+
+#High Level Degree
+data_dec21 %>%  filter(!is.na(High_Lvl_Degree)) %>% ggplot(aes(x = High_Lvl_Degree)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
+  labs(title = "Histogram of Highest Level Degree Counts", x = "Highest Level Degree", caption = "Source: Current Population Survey Food Security Supplements")
+
+## Geographic
+
+#State
+data_dec21 %>%  filter(!is.na(Stabr)) %>% ggplot(aes(x = Stabr)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
+  labs(title = "Histogram of State Counts", x = "State", caption = "Source: Current Population Survey Food Security Supplements") +
+  theme(axis.text.x = element_text(size = 7, face = "bold")) #making x-axis names bold and sliglty smaller for visibility
+
+
+```
+
+Summary Statistics of Food Security Measures
+```{r}
+
+#Food Insecurity Main measure
+data_dec21 %>%  filter(!is.na(twelveM_Household_FI)) %>% ggplot(aes(x = twelveM_Household_FI)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
+  labs(title = "Histogram of Main Food Insecurity Measure Counts", x = "Food Insecurity Level", caption = "Source: Current Population Survey Food Security Supplements")
+
+
+#Food Insecurity
+data_dec21 %>%  filter(!is.na(FI_orNot)) %>% ggplot(aes(x = FI_orNot)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
+  labs(title = "Histogram of High Food Insecurity or Not Counts", x = "Food Insecurity Level", caption = "Source: Current Population Survey Food Security Supplements")
+```
+
+
+Based on the histogram of Race I have decided to make some of the values mixed race rather than their own category due to their relatively extremely low numbers:
+
+Other Mixed Race:
+Black-Asian 
+AI-HP
+Black-HP
+Asian-HP
+White-HP
+Black-AI
+AI-Asian
+3+ mixed race
+
+White-Black 
+
+White Asian
+
+White-AI
+
+White ONly 
+
+Asian Only 
+
+Black Only
+
+American Indian, Alaskan Native Only 
+
+Hawaiian/Pacific Islander Only
+
+Re-coding the Race variable:
+```{r}
+data_dec21 <- data_dec21 %>% 
+  mutate(Race = factor(Race) %>% 
+    fct_recode(
+      "Other Mixed Race" = "Black-Asian",
+      "Other Mixed Race" = "AI-HP",
+      "Other Mixed Race" = "Black-HP",
+      "Other Mixed Race" = "Asian-HP",
+      "Other Mixed Race" = "White-HP",
+      "Other Mixed Race" = "White-HP",
+      "Other Mixed Race" = "Black-AI",
+      "Other Mixed Race" = "AI-Asian",
+      "Other Mixed Race" = "3+ mixed-race"))
+
+#Rerunning Race Histogram Code
+data_dec21 %>%  filter(!is.na(Race)) %>% ggplot(aes(x = Race)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels 
+  labs(title = "Histogram of Race Counts", x = "Race", caption = "Source: Current Population Survey Food Security Supplements")
+
+summary(data_dec21$Race)
+
+```
+## Final Look at data_dec21 dataset
+```{r}
+
+skim(data_dec21)
+
+glimpse(data_dec21)
+
+```
+
+
+
+
+## Looking at Food insecurity 
+
+
+Rasche Scores
+```{r, warning = FALSE}
+
+#data_dec21$HRFS12M4 <- as.numeric(data_dec21$HRFS12M4)
+#rasche_FIscore12mHoushold <-data_dec21$HRFS12M4
+#data_dec21$twelveM_Household_FI_Rasche <- as.numeric(data_dec21$twelveM_Household_FI_Rasche)
+
+#Graphing Food Insecurity Rasche scores by Age/Gender
+data_dec21 %>% filter(!is.na(twelveM_Household_FI_Rasche)) %>% 
+  ggplot(aes(x = Age, y = twelveM_Household_FI_Rasche, color = Sex)) +
+  geom_jitter(alpha = .05) +
+  stat_summary(aes(x = Age, y = twelveM_Household_FI_Rasche, group = Sex), fun.y=mean, geom="line", size =1.5) +
+  labs(y = "Mean Food Insecurity Rasche Score (HRFS12M4)", title = "Mean Food Insecurity Rasche Scores by Age/Gender", caption = "Source: Current Population Survey Food Security Supplements") +
+  theme_bw() 
+
+
+data_dec21 %>% filter(!is.na(twelveM_Household_FI_Rasche)) %>% 
+tabyl(Sex, twelveM_Household_FI_Rasche) %>% 
+  adorn_percentages("row") %>% 
+  adorn_pct_formatting(digits = 1)
+
+```
+
+FI_orNot Variable
+```{r}
+
+#A table 
+data_dec21 %>% filter(!is.na(FI_orNot)) %>% 
+tabyl(Sex, FI_orNot) %>% 
+  adorn_percentages("row") %>% 
+  adorn_pct_formatting(digits = 1)
+
+data_dec21 %>% filter(!is.na(FI_orNot)) %>% 
+  ggplot(aes(x = Sex)) +
+  geom_col(aes(y = FI_orNot)) +
+  theme_bw()
+  
+
+#subset(data_dec21, Race == "White Only") 
+
+
+
+#data_dec21 %>% filter(!is.na(FI_orNot), FI_orNot == #"Food Insecure") %>% 
+#  ggplot(aes(x = Sex, y = )) +
+#  geom_bar(aes(y = ..prop.., fill = factor(..x..)),stat #= count) +
+#  scale_y_continuous(label = scales::percent)
+  
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Importing second dataset
+
+```{r}
+# Read in xlsx file
+#poverty_data_large <- read_excel("C:/Users/foste/Desktop/418 final project folder/PovertyEstimates_new.xlsx")
+
+#poverty_data_county <- select(poverty_data_large, Stabr, FIPS_code, PCTPOVALL_2020)
+#rm(poverty_data_large)
+
+#View(poverty_data_county)
+```
+
+Merging Data sets by inner join
+
+```{r}
+#Merged_DataSet =  data_dec21 %>% inner_join(poverty_data,by="FIPS_code")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## New Data Set, % in poverty by State
+
+```{r, warning = FALSE}
+#Pct_in_poverty_State <- read.csv("C:/Users/foste/Desktop/418 final project folder/Pct_in_poverty_State - Sheet1.csv")
+
+#summary(Pct_in_poverty_State)
+```
+
+Pivot Longer to change shape of Data Set
+
+```{r}
+#Pct_in_poverty_State <- Pct_in_poverty_State %>%
+#pivot_longer(names_from = Stabr, values_from = Pct_in_poverty)
+```
+
+
+```{r}
+
+#Pct_in_poverty_State %>% ggplot(aes(x = Stabr, y = pct_in_poverty)) +
+#geom_col(fill = "dodgerblue", color = "black")+
+#labs(title = "% in poverty by State",
+#caption = "The American Community servey",
+#x = "State",
+#y = "% in Poverty")
+
+
+```
+
