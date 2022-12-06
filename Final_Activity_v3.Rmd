@@ -52,10 +52,13 @@ dec21pub <- read.csv("C:/Users/foste/Desktop/418 final project folder/dec21pub.c
 
 ```
 
-Subsetting Food Sumplement data set for variables          
+Subsetting Food Supplement data set for variables          
 ```{r 2}
+
+
+
 data_dec21 <- select(dec21pub, GTCO, GTCSA, PRTAGE, PTDTRACE, PESEX, 
-                     PEMARITL, GESTFIPS, PEEDUCA, HRFS12M4, HRFS12M1, HRFS12MD)
+                     PEMARITL, GESTFIPS, PEEDUCA,PEHSPNON, HRFS12M4, HRFS12M1, HRFS12MD)
 
 #removing old F.S data sets
 rm(dec21pub)
@@ -76,7 +79,7 @@ data_dec21 <- data_dec21 %>%
 
 #code to add one zero to the front of the state code if there is only one value, if there is two adds nothing
 data_dec21 <- data_dec21 %>% 
-  mutate(test_var2 = ifelse(data_dec21$test_var == 1, paste("0",data_dec21$GESTFIPS,sep=""),data_dec21$GESTFIPS))
+  mutate(test_var2 = ifelse(data_dec21$test_var == 1, str_c("0",data_dec21$GESTFIPS,sep=""),data_dec21$GESTFIPS))
 
 
 #COUNTY-CODE
@@ -88,7 +91,7 @@ data_dec21 <- data_dec21 %>%
 
 #code to add one zero to the front of the county code if there is less than or equal to two values 
   data_dec21 <- data_dec21 %>% 
-  mutate(test_var2_county = ifelse(data_dec21$test_var_county <= 2, paste("0",data_dec21$GTCO,sep=""),data_dec21$GTCO))
+  mutate(test_var2_county = ifelse(data_dec21$test_var_county <= 2, str_c("0",data_dec21$GTCO,sep=""),data_dec21$GTCO))
 
 #Reruning the counter variable to find the length of the updated county code
 data_dec21 <- data_dec21 %>% 
@@ -96,12 +99,12 @@ data_dec21 <- data_dec21 %>%
 
 #Iterating a second time to add another zero if there's only two values, otherwise leave value be  
 data_dec21 <- data_dec21 %>% 
-  mutate(test_var2_county = ifelse(data_dec21$test_var_county <= 2, paste("0",data_dec21$test_var2_county,sep=""),data_dec21$test_var2_county))
+  mutate(test_var2_county = ifelse(data_dec21$test_var_county <= 2, str_c("0",data_dec21$test_var2_county,sep=""),data_dec21$test_var2_county))
 
 #UNIQUE-COUNTY CODE
 
 data_dec21 <- data_dec21 %>% 
-          mutate(FIPS_code = paste(test_var2,test_var2_county,sep=""))
+          mutate(FIPS_code = str_c(test_var2,test_var2_county,sep=""))
 
 
 
@@ -126,6 +129,14 @@ data_dec21 <- data_dec21 %>%
 #Replacing -6 values with NA for entire data set
 data_dec21 <- data_dec21 %>%
                   mutate(across(everything(), ~na_if(str_trim(.x), "-6")))
+
+#Recoding Hispanic Variable - PEHSPNON
+data_dec21 <- data_dec21 %>% 
+  mutate(Hispanic = factor(PEHSPNON) %>% 
+    fct_recode(
+      "Hispanic" = "1",
+      "Non-Hispanic" = "2"))
+
 
 #Recoding CSA Area variable
 data_dec21 <- data_dec21 %>% 
@@ -320,7 +331,7 @@ Re-selecting Re-coded Variables for new data set
 
 ```{r}
 
-data_dec21 <- select(data_dec21,FIPS_code, GTCSA, Stabr, Age, Race, Sex, 
+data_dec21 <- select(data_dec21,FIPS_code, GTCSA, Stabr, Age, Race, Sex,Hispanic, 
                      Marital_status, High_Lvl_Degree, twelveM_Household_FI, twelveM_Household_FI_Rasche, FI_orNot)
 
 
@@ -373,6 +384,13 @@ data_dec21 %>%  filter(!is.na(Stabr)) %>% ggplot(aes(x = Stabr)) +
   geom_bar() +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
   labs(title = "Histogram of State Counts", x = "State", caption = "Source: Current Population Survey Food Security Supplements") +
+  theme(axis.text.x = element_text(size = 7, face = "bold")) #making x-axis names bold and sliglty smaller for visibility
+
+#Hispanic
+data_dec21 %>%  filter(!is.na(Hispanic)) %>% ggplot(aes(x = Hispanic)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
+  labs(title = "Histogram of Hispanics", x = "Hispanic or not", caption = "Source: Current Population Survey Food Security Supplements") +
   theme(axis.text.x = element_text(size = 7, face = "bold")) #making x-axis names bold and sliglty smaller for visibility
 
 
@@ -448,6 +466,7 @@ data_dec21 %>%  filter(!is.na(Race)) %>% ggplot(aes(x = Race)) +
 summary(data_dec21$Race)
 
 ```
+
 ## Final Look at data_dec21 dataset
 ```{r}
 
@@ -489,17 +508,17 @@ tabyl(Sex, twelveM_Household_FI_Rasche) %>%
 FI_orNot Variable
 ```{r}
 
+
+
+
+
 #A table 
 data_dec21 %>% filter(!is.na(FI_orNot)) %>% 
 tabyl(Sex, FI_orNot) %>% 
   adorn_percentages("row") %>% 
   adorn_pct_formatting(digits = 1)
 
-data_dec21 %>% filter(!is.na(FI_orNot)) %>% 
-  ggplot(aes(x = Sex)) +
-  geom_col(aes(y = FI_orNot)) +
-  theme_bw()
-  
+
 
 #subset(data_dec21, Race == "White Only") 
 
@@ -521,49 +540,34 @@ data_dec21 %>% filter(!is.na(FI_orNot)) %>%
 
 
 
+## Merging Data sets
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Importing second dataset
+Importing 2nd data set
 
 ```{r}
-# Read in xlsx file
-#poverty_data_large <- read_excel("C:/Users/foste/Desktop/418 final project folder/PovertyEstimates_new.xlsx")
+#Read in xlsx file
+poverty_data_large <- read_excel("C:/Users/foste/Desktop/418 final project folder/PovertyEstimates_new.xlsx")
 
-#poverty_data_county <- select(poverty_data_large, Stabr, FIPS_code, PCTPOVALL_2020)
+poverty_data_county <- select(poverty_data_large,FIPS_code, PCTPOVALL_2020)
 #rm(poverty_data_large)
 
-#View(poverty_data_county)
 ```
 
 Merging Data sets by inner join
 
 ```{r}
-#Merged_DataSet =  data_dec21 %>% inner_join(poverty_data,by="FIPS_code")
+Merged_DataSet <-  data_dec21 %>% inner_join(poverty_data_county,by="FIPS_code")
+rm(poverty_data_large)
 
 ```
 
 
+Merging these data sets will tell us for each observation, what the percentage of people in the county live in poverty
 
+```{r}
+
+
+```
 
 
 
