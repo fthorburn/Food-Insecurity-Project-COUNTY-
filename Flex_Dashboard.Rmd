@@ -1,0 +1,209 @@
+---
+title: "Food Insecurity - Current Population Survey"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+
+```{r libraries, warning = FALSE}
+library(ggplot2)
+library(dplyr)
+library(RWDataPlyr)
+library(readxl)
+library(skimr)
+library(forcats)
+library(janitor)
+library(stringr)
+library(tidyr)
+library(ggthemes)
+library(tibble)
+library(purrr)
+library(ggplot2)
+library(lubridate)
+```
+
+
+
+```{r data}
+
+# Read in csv file
+dec21pub <- read.csv("C:/Users/foste/Desktop/418 final project folder/dec21pub.csv")
+
+```
+
+        
+```{r 2}
+
+#Reselecting variables in data set
+data_dec21 <- select(dec21pub, GTCO, PRTAGE, PTDTRACE, PESEX, 
+                     PEMARITL, GESTFIPS, PEEDUCA,PEHSPNON, HRFS12M4, HRFS12M1, HRFS12MD)
+
+
+
+#removing old F.S data sets
+rm(dec21pub)
+
+```
+
+
+```{r, warning = FALSE} 
+
+#RECODING VARIABLES FOR USE IN GGPLOT
+
+#Replacing -1 values with NA for entire data set
+data_dec21 <- data_dec21 %>%
+                  mutate(across(everything(), ~na_if(str_trim(.x), "-1")))
+#Replacing -9 values with NA for entire data set
+data_dec21 <- data_dec21 %>%
+                  mutate(across(everything(), ~na_if(str_trim(.x), "-9")))
+#Replacing -6 values with NA for entire data set
+data_dec21 <- data_dec21 %>%
+                  mutate(across(everything(), ~na_if(str_trim(.x), "-6")))
+
+
+#Re-coding highest complete degree variable
+data_dec21 <- data_dec21 %>% 
+  mutate(High_Lvl_Degree = factor(PEEDUCA) %>% 
+    fct_recode(
+      "Less than H.S or GED" = "31", #Grouping multiple Education Acheivements that are less than H.S or GED into one category 
+      "Less than H.S or GED" = "32",
+      "Less than H.S or GED" = "33",
+      "Less than H.S or GED" = "34",
+      "Less than H.S or GED" = "35",
+      "Less than H.S or GED" = "36",
+      "Less than H.S or GED" = "37",
+      "Less than H.S or GED" = "31",
+      "Less than H.S or GED" = "38",
+      "H.S or GED" = "39", 
+      "H.S or GED" = "40",
+      "Associate's" = "41",
+      "Associate's" = "42",
+      "Bachelor's" = "43",
+      "Master's" = "44",
+      "Professional" = "45",
+      "Doctorate" = "46"))
+
+#Re-coding marital status variable
+data_dec21 <- data_dec21 %>% 
+  mutate(Marital_status = factor(PEMARITL) %>% 
+    fct_recode(
+      "MARRIED - SPOUSE PRESENT" = "1",
+      "MARRIED - SPOUSE ABSENT" = "2",
+      "WIDOWED" = "3",
+      "DIVORCED" = "4",
+      "SEPARATED" = "5",
+      "NEVER MARRIED" = "6"))
+
+
+#Mutating to re-code Sex Variable 
+data_dec21 <- data_dec21 %>% 
+  mutate(Sex = factor(PESEX) %>% 
+    fct_recode(
+      "Male" = "1",
+      "Female" = "2"))     
+
+#Mutating to recode Age variable
+ data_dec21 <- data_dec21 %>% 
+  mutate(Age = as.numeric(factor(PRTAGE)))
+ 
+
+                  
+```
+
+
+```{r}
+
+ 
+#Mutating to recode food insecurity scale rasch variable
+ data_dec21 <- data_dec21 %>% 
+  mutate(twelveM_Household_FI_rasch = factor(HRFS12M4))
+
+#Making the rasch variable numeric so it can be graphed
+data_dec21$twelveM_Household_FI_rasch <- as.numeric(as.character(data_dec21$twelveM_Household_FI_rasch))
+ 
+ 
+ 
+```
+
+
+
+```{r}
+
+
+#Reslecting varibales for use in GGPLOT
+data_dec21_2 <- select(data_dec21, Age, Sex, High_Lvl_Degree, Marital_status, twelveM_Household_FI_rasch)
+
+rm(data_dec21)
+
+```
+
+
+
+
+
+
+
+
+Column {data-width=375}
+-----------------------------------------------------------------------
+
+### Rasch Food Insecurity Plot
+
+```{r}
+#Graphing Food Insecurity Rasch scores by Age/Sex
+data_dec21_2 %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% 
+  ggplot(aes(x = Age, y = twelveM_Household_FI_rasch, color = Sex)) + #Color of plot divided by Sex
+  stat_summary(aes(x = Age, y = twelveM_Household_FI_rasch, group = Sex), fun.y=mean, geom="line", size =1.5) + #Adds Sex line
+  labs(y = "Food Insecurity, Household 12 Month (Mean Rasch Score)", title = "Food Insecurity Scores of Sexes across Age", caption = "Source: Current Population Survey Food Security Supplements",
+       x = "Age (Years)") +
+  theme_bw()
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Rasch Food Insecurity Density Plot
+
+```{r}
+#Making a new data frame with only associates and bachelor's degrees
+dgr_df_2 <- data_dec21_2 %>% filter(High_Lvl_Degree == "Doctorate" | High_Lvl_Degree == "Less than H.S or GED")
+
+#Density Plot of Food Insecurity rasch scores
+dgr_df_2 %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% 
+  ggplot(aes(x = twelveM_Household_FI_rasch, fill = High_Lvl_Degree)) +
+  geom_density(alpha = .5) +
+  labs(x ="12 Month Household Rasch Score",
+       title = "Density plot: Rasch Food Insecurity Scores and Education",
+       caption = "Source: Current Population Survey Food Security Supplements")
+ 
+```
+Column {data-width=800}
+-----------------------------------------------------------------------
+
+
+### Marital Status and Rasch Score Summary Statistics
+
+```{r}
+ 
+#Marital Status summary statistics
+table_m<- data_dec21_2 %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% #filters out NA's
+group_by(Marital_status) %>% 
+  summarise(
+    n = n(),
+    Median = median(twelveM_Household_FI_rasch), #A list of stats I want shown
+    mean = mean(twelveM_Household_FI_rasch),
+    sd = sd(twelveM_Household_FI_rasch),
+    Min = min(twelveM_Household_FI_rasch),
+    Max = max(twelveM_Household_FI_rasch)
+  )
+
+table_m  %>% flextable::flextable()
+
+```
+

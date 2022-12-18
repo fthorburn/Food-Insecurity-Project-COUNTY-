@@ -1,0 +1,1566 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Final\_Activity\_v3},
+  pdfauthor={Foster Thorburn},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Final\_Activity\_v3}
+\author{Foster Thorburn}
+\date{2022-11-30}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#edit test}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(RWDataPlyr)}
+\FunctionTok{library}\NormalTok{(readxl)}
+\FunctionTok{library}\NormalTok{(skimr)}
+\FunctionTok{library}\NormalTok{(forcats)}
+\FunctionTok{library}\NormalTok{(janitor)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'janitor'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     chisq.test, fisher.test
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(stringr)}
+\FunctionTok{library}\NormalTok{(tidyr)}
+\FunctionTok{library}\NormalTok{(ggthemes)}
+\FunctionTok{library}\NormalTok{(tibble)}
+\FunctionTok{library}\NormalTok{(purrr)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{reading-in-current-population-survey-december-2021-food-security-supplement}{%
+\subsection{Reading in Current Population Survey, December 2021: Food
+Security
+Supplement}\label{reading-in-current-population-survey-december-2021-food-security-supplement}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Read in csv file}
+\NormalTok{dec21pub }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/foste/Desktop/418 final project folder/dec21pub.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Subsetting Food Supplement data set for variables
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(dec21pub, GTCO, PRTAGE, PTDTRACE, PESEX, }
+\NormalTok{                     PEMARITL, GESTFIPS, PEEDUCA,PEHSPNON, HRFS12M4, HRFS12M1, HRFS12MD)}
+
+\CommentTok{\#removing old F.S data sets}
+\FunctionTok{rm}\NormalTok{(dec21pub)}
+\end{Highlighting}
+\end{Shaded}
+
+Creating unique County FIPS codes
+
+\begin{Shaded}
+\begin{Highlighting}[]
+                            \CommentTok{\#state    \#county}
+\CommentTok{\# Unique County FIPS code = [GESTFIPS][GTCO]}
+
+\CommentTok{\#SATE{-}CODE}
+
+\CommentTok{\#test var holds the value of the length of the state code}
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+          \FunctionTok{mutate}\NormalTok{(}\AttributeTok{test\_var =} \FunctionTok{nchar}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(}\FunctionTok{factor}\NormalTok{(GESTFIPS))))}
+
+\CommentTok{\#code to add one zero to the front of the state code if there is only one value, if there is two adds nothing}
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{test\_var2 =} \FunctionTok{ifelse}\NormalTok{(data\_dec21}\SpecialCharTok{$}\NormalTok{test\_var }\SpecialCharTok{==} \DecValTok{1}\NormalTok{, }\FunctionTok{str\_c}\NormalTok{(}\StringTok{"0"}\NormalTok{,data\_dec21}\SpecialCharTok{$}\NormalTok{GESTFIPS,}\AttributeTok{sep=}\StringTok{""}\NormalTok{),data\_dec21}\SpecialCharTok{$}\NormalTok{GESTFIPS))}
+
+
+\CommentTok{\#COUNTY{-}CODE}
+
+\CommentTok{\#test\_var\_county holds the value of the length of the county code}
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+          \FunctionTok{mutate}\NormalTok{(}\AttributeTok{test\_var\_county =} \FunctionTok{nchar}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(}\FunctionTok{factor}\NormalTok{(GTCO))))}
+
+
+\CommentTok{\#code to add one zero to the front of the county code if there is less than or equal to two values }
+\NormalTok{  data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{test\_var2\_county =} \FunctionTok{ifelse}\NormalTok{(data\_dec21}\SpecialCharTok{$}\NormalTok{test\_var\_county }\SpecialCharTok{\textless{}=} \DecValTok{2}\NormalTok{, }\FunctionTok{str\_c}\NormalTok{(}\StringTok{"0"}\NormalTok{,data\_dec21}\SpecialCharTok{$}\NormalTok{GTCO,}\AttributeTok{sep=}\StringTok{""}\NormalTok{),data\_dec21}\SpecialCharTok{$}\NormalTok{GTCO))}
+
+\CommentTok{\#Reruning the counter variable to find the length of the updated county code}
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+          \FunctionTok{mutate}\NormalTok{(}\AttributeTok{test\_var\_county =} \FunctionTok{nchar}\NormalTok{(test\_var2\_county))}
+
+\CommentTok{\#Iterating a second time to add another zero if there\textquotesingle{}s only two values, otherwise leave value be  }
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{test\_var2\_county =} \FunctionTok{ifelse}\NormalTok{(data\_dec21}\SpecialCharTok{$}\NormalTok{test\_var\_county }\SpecialCharTok{\textless{}=} \DecValTok{2}\NormalTok{, }\FunctionTok{str\_c}\NormalTok{(}\StringTok{"0"}\NormalTok{,data\_dec21}\SpecialCharTok{$}\NormalTok{test\_var2\_county,}\AttributeTok{sep=}\StringTok{""}\NormalTok{),data\_dec21}\SpecialCharTok{$}\NormalTok{test\_var2\_county))}
+
+\CommentTok{\#UNIQUE{-}COUNTY CODE}
+
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+          \FunctionTok{mutate}\NormalTok{(}\AttributeTok{FIPS\_code =} \FunctionTok{str\_c}\NormalTok{(test\_var2,test\_var2\_county,}\AttributeTok{sep=}\StringTok{""}\NormalTok{))}
+
+
+
+\CommentTok{\#example function}
+\CommentTok{\#my\_funct \textless{}{-} function() \{}
+\CommentTok{\#  print("test")}
+\CommentTok{\#\}}
+\end{Highlighting}
+\end{Shaded}
+
+Re-coding Demographic Variables
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Replacing {-}1 values with NA for entire data set}
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%}
+                  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{na\_if}\NormalTok{(}\FunctionTok{str\_trim}\NormalTok{(.x), }\StringTok{"{-}1"}\NormalTok{)))}
+\CommentTok{\#Replacing {-}9 values with NA for entire data set}
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%}
+                  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{na\_if}\NormalTok{(}\FunctionTok{str\_trim}\NormalTok{(.x), }\StringTok{"{-}9"}\NormalTok{)))}
+\CommentTok{\#Replacing {-}6 values with NA for entire data set}
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%}
+                  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{na\_if}\NormalTok{(}\FunctionTok{str\_trim}\NormalTok{(.x), }\StringTok{"{-}6"}\NormalTok{)))}
+
+\CommentTok{\#Recoding Hispanic Variable {-} PEHSPNON}
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Hispanic =} \FunctionTok{factor}\NormalTok{(PEHSPNON) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{fct\_recode}\NormalTok{(}
+      \StringTok{"Hispanic"} \OtherTok{=} \StringTok{"1"}\NormalTok{,}
+      \StringTok{"Non{-}Hispanic"} \OtherTok{=} \StringTok{"2"}\NormalTok{))}
+
+
+
+\CommentTok{\#Re{-}coding marital status variable}
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Marital\_status =} \FunctionTok{factor}\NormalTok{(PEMARITL) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{fct\_recode}\NormalTok{(}
+      \StringTok{"MARRIED {-} SPOUSE PRESENT"} \OtherTok{=} \StringTok{"1"}\NormalTok{,}
+      \StringTok{"MARRIED {-} SPOUSE ABSENT"} \OtherTok{=} \StringTok{"2"}\NormalTok{,}
+      \StringTok{"WIDOWED"} \OtherTok{=} \StringTok{"3"}\NormalTok{,}
+      \StringTok{"DIVORCED"} \OtherTok{=} \StringTok{"4"}\NormalTok{,}
+      \StringTok{"SEPARATED"} \OtherTok{=} \StringTok{"5"}\NormalTok{,}
+      \StringTok{"NEVER MARRIED"} \OtherTok{=} \StringTok{"6"}\NormalTok{))}
+
+\CommentTok{\#Re{-}coding highest complete degree variable}
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{High\_Lvl\_Degree =} \FunctionTok{factor}\NormalTok{(PEEDUCA) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{fct\_recode}\NormalTok{(}
+      \StringTok{"Less than H.S or GED"} \OtherTok{=} \StringTok{"31"}\NormalTok{,}
+      \StringTok{"Less than H.S or GED"} \OtherTok{=} \StringTok{"32"}\NormalTok{,}
+      \StringTok{"Less than H.S or GED"} \OtherTok{=} \StringTok{"33"}\NormalTok{,}
+      \StringTok{"Less than H.S or GED"} \OtherTok{=} \StringTok{"34"}\NormalTok{,}
+      \StringTok{"Less than H.S or GED"} \OtherTok{=} \StringTok{"35"}\NormalTok{,}
+      \StringTok{"Less than H.S or GED"} \OtherTok{=} \StringTok{"36"}\NormalTok{,}
+      \StringTok{"Less than H.S or GED"} \OtherTok{=} \StringTok{"37"}\NormalTok{,}
+      \StringTok{"Less than H.S or GED"} \OtherTok{=} \StringTok{"31"}\NormalTok{,}
+      \StringTok{"Less than H.S or GED"} \OtherTok{=} \StringTok{"38"}\NormalTok{,}
+      \StringTok{"H.S or GED"} \OtherTok{=} \StringTok{"39"}\NormalTok{, }
+      \StringTok{"H.S or GED"} \OtherTok{=} \StringTok{"40"}\NormalTok{,}
+      \StringTok{"Associate\textquotesingle{}s"} \OtherTok{=} \StringTok{"41"}\NormalTok{,}
+      \StringTok{"Associate\textquotesingle{}s"} \OtherTok{=} \StringTok{"42"}\NormalTok{,}
+      \StringTok{"Bachelor\textquotesingle{}s"} \OtherTok{=} \StringTok{"43"}\NormalTok{,}
+      \StringTok{"Master\textquotesingle{}s"} \OtherTok{=} \StringTok{"44"}\NormalTok{,}
+      \StringTok{"Professional"} \OtherTok{=} \StringTok{"45"}\NormalTok{,}
+      \StringTok{"Doctorate"} \OtherTok{=} \StringTok{"46"}\NormalTok{))}
+
+
+\CommentTok{\#Makes state variable GESTFIPS into character}
+\NormalTok{data\_dec21}\SpecialCharTok{$}\NormalTok{GESTFIPS }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(data\_dec21}\SpecialCharTok{$}\NormalTok{GESTFIPS)}
+\CommentTok{\#summary(data\_dec21$GESTFIPS)}
+
+\CommentTok{\#Changing data set to make a new column called "Stabr" which is the state abreviation}
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%}
+                   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Stabr =} \FunctionTok{factor}\NormalTok{(GESTFIPS) }\SpecialCharTok{\%\textgreater{}\%}
+                     \FunctionTok{fct\_recode}\NormalTok{( }
+           \StringTok{"AL"} \OtherTok{=} \StringTok{"1"}\NormalTok{, }
+           \StringTok{"AK"} \OtherTok{=} \StringTok{"2"}\NormalTok{, }
+           \StringTok{"AZ"} \OtherTok{=} \StringTok{"4"}\NormalTok{,}
+           \StringTok{"AR"} \OtherTok{=} \StringTok{"5"}\NormalTok{,}
+           \StringTok{"CA"} \OtherTok{=} \StringTok{"6"}\NormalTok{,}
+           \StringTok{"CO"} \OtherTok{=} \StringTok{"8"}\NormalTok{,}
+           \StringTok{"CT"} \OtherTok{=} \StringTok{"9"}\NormalTok{,}
+           \StringTok{"DE"} \OtherTok{=} \StringTok{"10"}\NormalTok{,}
+           \StringTok{"DC"} \OtherTok{=} \StringTok{"11"}\NormalTok{,}
+           \StringTok{"FL"} \OtherTok{=} \StringTok{"12"}\NormalTok{,}
+           \StringTok{"GA"} \OtherTok{=} \StringTok{"13"}\NormalTok{,}
+           \StringTok{"HI"} \OtherTok{=} \StringTok{"15"}\NormalTok{,}
+           \StringTok{"ID"} \OtherTok{=} \StringTok{"16"}\NormalTok{,}
+           \StringTok{"IL"} \OtherTok{=} \StringTok{"17"}\NormalTok{,}
+           \StringTok{"IN"} \OtherTok{=} \StringTok{"18"}\NormalTok{,}
+           \StringTok{"IA"} \OtherTok{=} \StringTok{"19"}\NormalTok{,}
+           \StringTok{"KS"} \OtherTok{=} \StringTok{"20"}\NormalTok{,}
+           \StringTok{"KY"} \OtherTok{=} \StringTok{"21"}\NormalTok{,}
+           \StringTok{"LA"} \OtherTok{=} \StringTok{"22"}\NormalTok{,}
+           \StringTok{"ME"} \OtherTok{=} \StringTok{"23"}\NormalTok{,}
+           \StringTok{"MD"} \OtherTok{=} \StringTok{"24"}\NormalTok{,}
+           \StringTok{"MA"} \OtherTok{=} \StringTok{"25"}\NormalTok{,}
+           \StringTok{"MI"} \OtherTok{=} \StringTok{"26"}\NormalTok{,}
+           \StringTok{"MN"} \OtherTok{=} \StringTok{"27"}\NormalTok{,}
+           \StringTok{"MS"} \OtherTok{=} \StringTok{"28"}\NormalTok{,}
+           \StringTok{"MO"} \OtherTok{=} \StringTok{"29"}\NormalTok{,}
+           \StringTok{"MT"} \OtherTok{=} \StringTok{"30"}\NormalTok{,}
+           \StringTok{"ME"} \OtherTok{=} \StringTok{"31"}\NormalTok{,}
+           \StringTok{"MV"} \OtherTok{=} \StringTok{"32"}\NormalTok{,}
+           \StringTok{"NH"} \OtherTok{=} \StringTok{"33"}\NormalTok{,}
+           \StringTok{"NJ"} \OtherTok{=} \StringTok{"34"}\NormalTok{,}
+           \StringTok{"NM"} \OtherTok{=} \StringTok{"35"}\NormalTok{,}
+           \StringTok{"NY"} \OtherTok{=} \StringTok{"36"}\NormalTok{,}
+           \StringTok{"NC"} \OtherTok{=} \StringTok{"37"}\NormalTok{,}
+           \StringTok{"ND"} \OtherTok{=} \StringTok{"38"}\NormalTok{,}
+           \StringTok{"OH"} \OtherTok{=} \StringTok{"39"}\NormalTok{,}
+           \StringTok{"OK"} \OtherTok{=} \StringTok{"40"}\NormalTok{,}
+           \StringTok{"OR"} \OtherTok{=} \StringTok{"41"}\NormalTok{,}
+           \StringTok{"PA"} \OtherTok{=} \StringTok{"42"}\NormalTok{,}
+           \StringTok{"RI"} \OtherTok{=} \StringTok{"44"}\NormalTok{,}
+           \StringTok{"SC"} \OtherTok{=} \StringTok{"45"}\NormalTok{,}
+           \StringTok{"SD"} \OtherTok{=} \StringTok{"46"}\NormalTok{,}
+           \StringTok{"TN"} \OtherTok{=} \StringTok{"47"}\NormalTok{,}
+           \StringTok{"TX"} \OtherTok{=} \StringTok{"48"}\NormalTok{,}
+           \StringTok{"UT"} \OtherTok{=} \StringTok{"49"}\NormalTok{,}
+           \StringTok{"VT"} \OtherTok{=} \StringTok{"50"}\NormalTok{,}
+           \StringTok{"VA"} \OtherTok{=} \StringTok{"51"}\NormalTok{,}
+           \StringTok{"WA"} \OtherTok{=} \StringTok{"53"}\NormalTok{,}
+           \StringTok{"WV"} \OtherTok{=} \StringTok{"54"}\NormalTok{,}
+           \StringTok{"WI"} \OtherTok{=} \StringTok{"55"}\NormalTok{,}
+           \StringTok{"WY"} \OtherTok{=} \StringTok{"56"}\NormalTok{))}
+
+\CommentTok{\#data\_dec21 \textless{}{-} data\_dec21 \%\textgreater{}\%}
+\CommentTok{\#                   mutate(new\_name = factor(oldname) \%\textgreater{}\%}
+\CommentTok{\#                     fct\_recode( }
+\CommentTok{\#           "new\_level" = "old\_level")}
+
+
+
+\CommentTok{\#Recoding Race Variable }
+
+\NormalTok{data\_dec21}\SpecialCharTok{$}\NormalTok{PTDTRACE }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(data\_dec21}\SpecialCharTok{$}\NormalTok{PTDTRACE)}
+
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Race =} \FunctionTok{factor}\NormalTok{(PTDTRACE) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{fct\_recode}\NormalTok{(}
+      \StringTok{"White Only"} \OtherTok{=} \StringTok{"1"}\NormalTok{,}
+      \StringTok{"Black Only"} \OtherTok{=} \StringTok{"2"}\NormalTok{,}
+      \StringTok{"American Indian, Alaskan Native Only"} \OtherTok{=} \StringTok{"3"}\NormalTok{,}
+      \StringTok{"Aisan Only"} \OtherTok{=} \StringTok{"4"}\NormalTok{,}
+      \StringTok{"Hawaiian/Pacific Islander Only"} \OtherTok{=} \StringTok{"5"}\NormalTok{,}
+      \StringTok{"White{-}Black"} \OtherTok{=} \StringTok{"6"}\NormalTok{,}
+      \StringTok{"White{-}AI"} \OtherTok{=} \StringTok{"7"}\NormalTok{,}
+      \StringTok{"White{-}Asian"} \OtherTok{=} \StringTok{"8"}\NormalTok{, }
+      \StringTok{"White{-}HP"} \OtherTok{=} \StringTok{"9"}\NormalTok{,}
+      \StringTok{"Black{-}AI"} \OtherTok{=} \StringTok{"10"}\NormalTok{,}
+      \StringTok{"Black{-}Asian"} \OtherTok{=} \StringTok{"11"}\NormalTok{,}
+      \StringTok{"Black{-}HP"} \OtherTok{=} \StringTok{"12"}\NormalTok{,}
+      \StringTok{"AI{-}Asian"} \OtherTok{=} \StringTok{"13"}\NormalTok{,}
+      \StringTok{"AI{-}HP"} \OtherTok{=} \StringTok{"14"}\NormalTok{,}
+      \StringTok{"Asian{-}HP"} \OtherTok{=} \StringTok{"15"}\NormalTok{,}
+      \StringTok{"3+ mixed{-}race"} \OtherTok{=} \StringTok{"16"}\NormalTok{,}
+      \StringTok{"3+ mixed{-}race"} \OtherTok{=} \StringTok{"17"}\NormalTok{, }
+      \StringTok{"3+ mixed{-}race"} \OtherTok{=} \StringTok{"18"}\NormalTok{, }
+      \StringTok{"3+ mixed{-}race"} \OtherTok{=} \StringTok{"19"}\NormalTok{, }
+      \StringTok{"3+ mixed{-}race"} \OtherTok{=} \StringTok{"20"}\NormalTok{, }
+      \StringTok{"3+ mixed{-}race"} \OtherTok{=} \StringTok{"21"}\NormalTok{, }
+      \StringTok{"3+ mixed{-}race"} \OtherTok{=} \StringTok{"22"}\NormalTok{, }
+      \StringTok{"3+ mixed{-}race"} \OtherTok{=} \StringTok{"23"}\NormalTok{, }
+      \StringTok{"3+ mixed{-}race"} \OtherTok{=} \StringTok{"24"}\NormalTok{, }
+      \StringTok{"3+ mixed{-}race"} \OtherTok{=} \StringTok{"25"}\NormalTok{, }
+      \StringTok{"3+ mixed{-}race"} \OtherTok{=} \StringTok{"26"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Unknown levels in `f`: 22, 24
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Mutating to re{-}code Sex Variable }
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Sex =} \FunctionTok{factor}\NormalTok{(PESEX) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{fct\_recode}\NormalTok{(}
+      \StringTok{"Male"} \OtherTok{=} \StringTok{"1"}\NormalTok{,}
+      \StringTok{"Female"} \OtherTok{=} \StringTok{"2"}\NormalTok{))     }
+
+\CommentTok{\#Mutating to recode Age variable}
+\NormalTok{ data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Age =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{factor}\NormalTok{(PRTAGE)))}
+\end{Highlighting}
+\end{Shaded}
+
+Re-coding Food Security Measures
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Mutating to re code Main food insecurity measure variable}
+\NormalTok{ data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{twelveM\_Household\_FI =} \FunctionTok{factor}\NormalTok{(HRFS12M1) }\SpecialCharTok{\%\textgreater{}\%} 
+           \FunctionTok{fct\_recode}\NormalTok{(}
+             \StringTok{"Food Secure High or Marginal Food Security"} \OtherTok{=} \StringTok{"1"}\NormalTok{,}
+             \StringTok{"Low Food Security"} \OtherTok{=} \StringTok{"2"}\NormalTok{,}
+             \StringTok{"Very Low Food Security"} \OtherTok{=} \StringTok{"3"}\NormalTok{))}
+ 
+ \CommentTok{\#Mutating to recode food insecurity scale rasch variable}
+\NormalTok{ data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{twelveM\_Household\_FI\_rasch =} \FunctionTok{factor}\NormalTok{(HRFS12M4))}
+ \CommentTok{\#Making the rasch variable numeric so it can be graphed}
+ 
+\NormalTok{ data\_dec21}\SpecialCharTok{$}\NormalTok{twelveM\_Household\_FI\_rasch }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(data\_dec21}\SpecialCharTok{$}\NormalTok{twelveM\_Household\_FI\_rasch))}
+ 
+ 
+ \CommentTok{\#Mutating to re code food insecurity variable which combines the main food insecurity measure into food insecure or not}
+\NormalTok{ data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{FI\_orNot =} \FunctionTok{factor}\NormalTok{(HRFS12MD) }\SpecialCharTok{\%\textgreater{}\%} 
+           \FunctionTok{fct\_recode}\NormalTok{(}
+             \StringTok{"High Food Security"} \OtherTok{=} \StringTok{"1"}\NormalTok{,}
+             \StringTok{"Food Insecure"} \OtherTok{=} \StringTok{"2"}\NormalTok{,}
+             \StringTok{"Food Insecure"} \OtherTok{=} \StringTok{"3"}\NormalTok{,}
+             \StringTok{"Food Insecure"} \OtherTok{=} \StringTok{"4"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Re-selecting Re-coded Variables for new data set
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(data\_dec21,FIPS\_code, Stabr, Age, Race, Sex, Hispanic, }
+\NormalTok{                     Marital\_status, High\_Lvl\_Degree, twelveM\_Household\_FI, twelveM\_Household\_FI\_rasch, FI\_orNot)}
+\end{Highlighting}
+\end{Shaded}
+
+Summary Statistics of Food Security Measures
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Food Insecurity Main measure}
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%}  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(twelveM\_Household\_FI)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ twelveM\_Household\_FI)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle=}\DecValTok{45}\NormalTok{, }\AttributeTok{vjust=}\DecValTok{1}\NormalTok{, }\AttributeTok{hjust=}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{+} \CommentTok{\#45 degree angle labels}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Main Food Insecurity Measure Counts"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Food Insecurity Level"}\NormalTok{, }\AttributeTok{caption =} \StringTok{"Source: Current Population Survey Food Security Supplements"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Activity_v3_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Food Insecurity}
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%}  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ FI\_orNot)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle=}\DecValTok{45}\NormalTok{, }\AttributeTok{vjust=}\DecValTok{1}\NormalTok{, }\AttributeTok{hjust=}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{+} \CommentTok{\#45 degree angle labels}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"High Food Insecurity or Not Counts"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Food Insecurity Level"}\NormalTok{, }\AttributeTok{caption =} \StringTok{"Source: Current Population Survey Food Security Supplements"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Activity_v3_files/figure-latex/unnamed-chunk-5-2.pdf}
+
+In both categorizations of food insecurity, most people are food secure.
+
+Based on the Counts of Race I have decided to make some of the values
+mixed race rather than their own category due to their relatively
+extremely low numbers:
+
+Other Mixed Race: Black-Asian AI-HP Black-HP Asian-HP White-HP Black-AI
+AI-Asian 3+ mixed race
+
+White-Black
+
+White Asian
+
+White-AI
+
+White ONly
+
+Asian Only
+
+Black Only
+
+American Indian, Alaskan Native Only
+
+Hawaiian/Pacific Islander Only
+
+Re-coding the Race variable:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Race =} \FunctionTok{factor}\NormalTok{(Race) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{fct\_recode}\NormalTok{(}
+      \StringTok{"Other Mixed Race"} \OtherTok{=} \StringTok{"Black{-}Asian"}\NormalTok{,}
+      \StringTok{"Other Mixed Race"} \OtherTok{=} \StringTok{"AI{-}HP"}\NormalTok{,}
+      \StringTok{"Other Mixed Race"} \OtherTok{=} \StringTok{"Black{-}HP"}\NormalTok{,}
+      \StringTok{"Other Mixed Race"} \OtherTok{=} \StringTok{"Asian{-}HP"}\NormalTok{,}
+      \StringTok{"Other Mixed Race"} \OtherTok{=} \StringTok{"White{-}HP"}\NormalTok{,}
+      \StringTok{"Other Mixed Race"} \OtherTok{=} \StringTok{"White{-}HP"}\NormalTok{,}
+      \StringTok{"Other Mixed Race"} \OtherTok{=} \StringTok{"Black{-}AI"}\NormalTok{,}
+      \StringTok{"Other Mixed Race"} \OtherTok{=} \StringTok{"AI{-}Asian"}\NormalTok{,}
+      \StringTok{"Other Mixed Race"} \OtherTok{=} \StringTok{"3+ mixed{-}race"}\NormalTok{))}
+
+
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(Race)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                    Race     n
+## 1                            White Only 80955
+## 2                      Other Mixed Race   557
+## 3                            Black Only 11100
+## 4  American Indian, Alaskan Native Only  1320
+## 5                            Aisan Only  5768
+## 6        Hawaiian/Pacific Islander Only   483
+## 7                           White-Black   753
+## 8                              White-AI   616
+## 9                           White-Asian   473
+## 10                                 <NA> 25464
+\end{verbatim}
+
+\#\#Data Dictionary
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{skim}\NormalTok{(data\_dec21)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{Data summary}\tabularnewline
+\toprule()
+\endhead
+Name & data\_dec21 \\
+Number of rows & 127489 \\
+Number of columns & 11 \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \\
+Column type frequency: & \\
+character & 1 \\
+factor & 8 \\
+numeric & 2 \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \\
+Group variables & None \\
+\bottomrule()
+\end{longtable}
+
+\textbf{Variable type: character}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1944}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1389}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1944}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.0556}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.0556}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.0833}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1250}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1528}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+skim\_variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n\_missing
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+complete\_rate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+min
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+max
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+empty
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n\_unique
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+whitespace
+\end{minipage} \\
+\midrule()
+\endhead
+FIPS\_code & 0 & 1 & 5 & 5 & 0 & 329 & 0 \\
+\bottomrule()
+\end{longtable}
+
+\textbf{Variable type: factor}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1944}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0926}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1296}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0741}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0833}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.4259}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+skim\_variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n\_missing
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+complete\_rate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+ordered
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n\_unique
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+top\_counts
+\end{minipage} \\
+\midrule()
+\endhead
+Stabr & 0 & 1.00 & FALSE & 50 & CA: 10189, TX: 7721, FL: 5833, NY:
+4864 \\
+Race & 25464 & 0.80 & FALSE & 9 & Whi: 80955, Bla: 11100, Ais: 5768,
+Ame: 1320 \\
+Sex & 25464 & 0.80 & FALSE & 2 & Fem: 52162, Mal: 49863 \\
+Hispanic & 25464 & 0.80 & FALSE & 2 & Non: 86707, His: 15318 \\
+Marital\_status & 43334 & 0.66 & FALSE & 6 & MAR: 41972, NEV: 25594,
+DIV: 8623, WID: 5490 \\
+High\_Lvl\_Degree & 43334 & 0.66 & FALSE & 7 & H.S: 37447, Bac: 17656,
+Les: 10545, Ass: 8093 \\
+twelveM\_Household\_FI & 56017 & 0.56 & FALSE & 3 & Foo: 64343, Low:
+4820, Ver: 2309 \\
+FI\_orNot & 56017 & 0.56 & FALSE & 2 & Hig: 58901, Foo: 12571 \\
+\bottomrule()
+\end{longtable}
+
+\textbf{Variable type: numeric}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.2935}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.1087}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.1522}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0761}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0761}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0435}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0435}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0435}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0435}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0543}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0652}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+skim\_variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n\_missing
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+complete\_rate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+mean
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+sd
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p0
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p25
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p50
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p75
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p100
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+hist
+\end{minipage} \\
+\midrule()
+\endhead
+Age & 25464 & 0.8 & 41.98 & 23.46 & 1 & 22 & 42 & 62 & 82 & ▇▇▇▇▇ \\
+twelveM\_Household\_FI\_rasch & 114918 & 0.1 & 416.91 & 241.60 & 143 &
+172 & 340 & 543 & 1303 & ▇▅▂▁▁ \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{glimpse}\NormalTok{(data\_dec21)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 127,489
+## Columns: 11
+## $ FIPS_code                  <chr> "01003", "01003", "01003", "01003", "01003"~
+## $ Stabr                      <fct> AL, AL, AL, AL, AL, AL, AL, AL, AL, AL, AL,~
+## $ Age                        <dbl> 56, 25, 22, 16, 38, 13, 23, 24, 47, 47, 69,~
+## $ Race                       <fct> "White Only", "White Only", "White Only", "~
+## $ Sex                        <fct> Male, Female, Male, Female, Male, Female, M~
+## $ Hispanic                   <fct> Non-Hispanic, Non-Hispanic, Non-Hispanic, N~
+## $ Marital_status             <fct> NEVER MARRIED, MARRIED - SPOUSE PRESENT, MA~
+## $ High_Lvl_Degree            <fct> Bachelor's, Bachelor's, Bachelor's, H.S or ~
+## $ twelveM_Household_FI       <fct> Food Secure High or Marginal Food Security,~
+## $ twelveM_Household_FI_rasch <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,~
+## $ FI_orNot                   <fct> High Food Security, NA, NA, NA, NA, NA, Hig~
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dataDictionary }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}\AttributeTok{Variable =} \FunctionTok{colnames}\NormalTok{(data\_dec21),}
+                         \AttributeTok{Description =} \FunctionTok{c}\NormalTok{(}\StringTok{"Unique County Code"}\NormalTok{, }\StringTok{"Abreviated State Name"}\NormalTok{, }\StringTok{"Age"}\NormalTok{, }\StringTok{"Hispanic"}\NormalTok{, }\StringTok{"Race"}\NormalTok{, }\StringTok{"Sex"}\NormalTok{, }\StringTok{"Marital Status"}\NormalTok{,}\StringTok{"Highest Level Ed. Degree Completed"}\NormalTok{, }\StringTok{"Household Food Security Scale, 12{-}Month Reference Period"}\NormalTok{, }\StringTok{"Food Security Rasch Scale Score, 12{-}Month Recall"}\NormalTok{, }\StringTok{"High Food Insecurity or not"}\NormalTok{),}
+                         \AttributeTok{Type =} \FunctionTok{map\_chr}\NormalTok{(data\_dec21, }\AttributeTok{.f =} \ControlFlowTok{function}\NormalTok{(x)\{}\FunctionTok{typeof}\NormalTok{(x)[}\DecValTok{1}\NormalTok{]\}),}
+                         \AttributeTok{Class =} \FunctionTok{map\_chr}\NormalTok{(data\_dec21, }\AttributeTok{.f =} \ControlFlowTok{function}\NormalTok{(x)\{}\FunctionTok{class}\NormalTok{(x)[}\DecValTok{1}\NormalTok{]\}))}
+
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(dataDictionary)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2596}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.5481}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0962}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0962}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+Variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Class
+\end{minipage} \\
+\midrule()
+\endhead
+FIPS\_code & Unique County Code & character & character \\
+Stabr & Abreviated State Name & integer & factor \\
+Age & Age & double & numeric \\
+Race & Hispanic & integer & factor \\
+Sex & Race & integer & factor \\
+Hispanic & Sex & integer & factor \\
+Marital\_status & Marital Status & integer & factor \\
+High\_Lvl\_Degree & Highest Level Ed. Degree Completed & integer &
+factor \\
+twelveM\_Household\_FI & Household Food Security Scale, 12-Month
+Reference Period & integer & factor \\
+twelveM\_Household\_FI\_rasch & Food Security Rasch Scale Score,
+12-Month Recall & double & numeric \\
+FI\_orNot & High Food Insecurity or not & integer & factor \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{summary-statistics---food-insecurity-or-not}{%
+\subsection{Summary Statistics - Food Insecurity or
+Not}\label{summary-statistics---food-insecurity-or-not}}
+
+A breakdown by percentage of each group that is food insecure or not
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{tabyl}\NormalTok{(High\_Lvl\_Degree, FI\_orNot) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_percentages}\NormalTok{(}\StringTok{"row"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_pct\_formatting}\NormalTok{(}\AttributeTok{digits =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       High_Lvl_Degree High Food Security Food Insecure
+##  Less than H.S or GED              70.0%         30.0%
+##            H.S or GED              79.2%         20.8%
+##           Associate's              84.2%         15.8%
+##            Bachelor's              92.1%          7.9%
+##              Master's              94.7%          5.3%
+##          Professional              96.5%          3.5%
+##             Doctorate              97.1%          2.9%
+##                  <NA>              77.3%         22.7%
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{tabyl}\NormalTok{(Race, FI\_orNot) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_percentages}\NormalTok{(}\StringTok{"row"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_pct\_formatting}\NormalTok{(}\AttributeTok{digits =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                  Race High Food Security Food Insecure
+##                            White Only              84.7%         15.3%
+##                      Other Mixed Race              69.6%         30.4%
+##                            Black Only              67.9%         32.1%
+##  American Indian, Alaskan Native Only              64.5%         35.5%
+##                            Aisan Only              85.3%         14.7%
+##        Hawaiian/Pacific Islander Only              69.9%         30.1%
+##                           White-Black              69.1%         30.9%
+##                              White-AI              68.4%         31.6%
+##                           White-Asian              86.3%         13.7%
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{tabyl}\NormalTok{(Hispanic, FI\_orNot) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_percentages}\NormalTok{(}\StringTok{"row"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_pct\_formatting}\NormalTok{(}\AttributeTok{digits =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      Hispanic High Food Security Food Insecure
+##      Hispanic              70.9%         29.1%
+##  Non-Hispanic              84.4%         15.6%
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{tabyl}\NormalTok{(Stabr, FI\_orNot) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_percentages}\NormalTok{(}\StringTok{"row"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_pct\_formatting}\NormalTok{(}\AttributeTok{digits =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  Stabr High Food Security Food Insecure
+##     AL              83.8%         16.2%
+##     DE              81.4%         18.6%
+##     DC              85.1%         14.9%
+##     FL              82.6%         17.4%
+##     GA              84.2%         15.8%
+##     HI              83.7%         16.3%
+##     ID              81.5%         18.5%
+##     IL              84.4%         15.6%
+##     IN              85.8%         14.2%
+##     IA              82.0%         18.0%
+##     AK              81.0%         19.0%
+##     KS              83.9%         16.1%
+##     KY              83.5%         16.5%
+##     LA              77.3%         22.7%
+##     ME              83.3%         16.7%
+##     MD              85.5%         14.5%
+##     MA              85.6%         14.4%
+##     MI              81.7%         18.3%
+##     MN              88.3%         11.7%
+##     MS              74.6%         25.4%
+##     MO              82.6%         17.4%
+##     MT              82.9%         17.1%
+##     MV              82.1%         17.9%
+##     NH              91.0%          9.0%
+##     NJ              83.4%         16.6%
+##     NM              79.7%         20.3%
+##     NY              82.6%         17.4%
+##     NC              84.6%         15.4%
+##     ND              88.9%         11.1%
+##     OH              82.2%         17.8%
+##     AZ              85.2%         14.8%
+##     OK              72.3%         27.7%
+##     OR              82.4%         17.6%
+##     PA              85.5%         14.5%
+##     RI              87.6%         12.4%
+##     SC              79.8%         20.2%
+##     SD              82.5%         17.5%
+##     TN              84.8%         15.2%
+##     TX              75.7%         24.3%
+##     UT              82.3%         17.7%
+##     AR              76.8%         23.2%
+##     VT              87.7%         12.3%
+##     VA              85.3%         14.7%
+##     WA              86.5%         13.5%
+##     WV              77.8%         22.2%
+##     WI              85.1%         14.9%
+##     WY              83.5%         16.5%
+##     CA              80.8%         19.2%
+##     CO              82.7%         17.3%
+##     CT              83.0%         17.0%
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{tabyl}\NormalTok{(Marital\_status, FI\_orNot) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_percentages}\NormalTok{(}\StringTok{"row"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_pct\_formatting}\NormalTok{(}\AttributeTok{digits =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            Marital_status High Food Security Food Insecure
+##  MARRIED - SPOUSE PRESENT              89.0%         11.0%
+##   MARRIED - SPOUSE ABSENT              76.9%         23.1%
+##                   WIDOWED              83.3%         16.7%
+##                  DIVORCED              76.8%         23.2%
+##                 SEPARATED              66.9%         33.1%
+##             NEVER MARRIED              77.8%         22.2%
+##                      <NA>              77.3%         22.7%
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{tabyl}\NormalTok{(High\_Lvl\_Degree, FI\_orNot) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_percentages}\NormalTok{(}\StringTok{"row"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_pct\_formatting}\NormalTok{(}\AttributeTok{digits =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       High_Lvl_Degree High Food Security Food Insecure
+##  Less than H.S or GED              70.0%         30.0%
+##            H.S or GED              79.2%         20.8%
+##           Associate's              84.2%         15.8%
+##            Bachelor's              92.1%          7.9%
+##              Master's              94.7%          5.3%
+##          Professional              96.5%          3.5%
+##             Doctorate              97.1%          2.9%
+##                  <NA>              77.3%         22.7%
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(Age)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(Age))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in mean.default(., as.numeric(Age)): argument is not numeric or logical:
+## returning NA
+\end{verbatim}
+
+\begin{verbatim}
+## [1] NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#do mean age of those who are food insecure and mean age of those who are not}
+\end{Highlighting}
+\end{Shaded}
+
+As educational degree completion rises, so does food security.
+
+White Only, Asian only, and White-Asian identified groups are the most
+food secure populations out of other races. Every other race is twice as
+food insecure as a proportion of their population.
+
+New Hampshire is a relatively food secure State.
+
+Hispanics are about twice as food insecure as non-Hispanics as a
+proportion of their populations
+
+The most food insecure marital status is separated spouses, the least is
+married with spouse present
+
+Summary Statistics - Rasch Scores
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(data\_dec21}\SpecialCharTok{$}\NormalTok{twelveM\_Household\_FI\_rasch)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   143.0   172.0   340.0   416.9   543.0  1303.0  114918
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(twelveM\_Household\_FI\_rasch)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{group\_by}\NormalTok{(Sex) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{Median =} \FunctionTok{median}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{mean =} \FunctionTok{mean}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{sd =} \FunctionTok{sd}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Min =} \FunctionTok{min}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Max =} \FunctionTok{max}\NormalTok{(twelveM\_Household\_FI\_rasch)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 7
+##   Sex        n Median  mean    sd   Min   Max
+##   <fct>  <int>  <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1 Male    5958    340  415.  240.   143  1303
+## 2 Female  6613    340  418.  243.   143  1303
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(twelveM\_Household\_FI\_rasch)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{group\_by}\NormalTok{(Race) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{Median =} \FunctionTok{median}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{mean =} \FunctionTok{mean}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{sd =} \FunctionTok{sd}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Min =} \FunctionTok{min}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Max =} \FunctionTok{max}\NormalTok{(twelveM\_Household\_FI\_rasch)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 9 x 7
+##   Race                                     n Median  mean    sd   Min   Max
+##   <fct>                                <int>  <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1 White Only                            8763    340  413.  239.   143  1303
+## 2 Other Mixed Race                       130    414  456.  239.   143   984
+## 3 Black Only                            2300    414  435.  246.   143  1216
+## 4 American Indian, Alaskan Native Only   338    414  458.  263.   143  1216
+## 5 Aisan Only                             587    310  386.  252.   143  1303
+## 6 Hawaiian/Pacific Islander Only          99    310  338.  190.   143  1015
+## 7 White-Black                            164    340  395.  225.   143  1105
+## 8 White-AI                               138    340  435.  272.   143  1105
+## 9 White-Asian                             52    340  414.  265.   143  1105
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(twelveM\_Household\_FI\_rasch)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{group\_by}\NormalTok{(Stabr) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{Median =} \FunctionTok{median}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{mean =} \FunctionTok{mean}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{sd =} \FunctionTok{sd}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Min =} \FunctionTok{min}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Max =} \FunctionTok{max}\NormalTok{(twelveM\_Household\_FI\_rasch)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 50 x 7
+##    Stabr     n Median  mean    sd   Min   Max
+##    <fct> <int>  <dbl> <dbl> <dbl> <dbl> <dbl>
+##  1 AL      196    423  450.  230.   143  1015
+##  2 DE      155    523  507.  236.   143  1105
+##  3 DC      180    310  362.  237.   143   984
+##  4 FL      476    340  408.  226.   143  1105
+##  5 GA      225    340  398.  236.   143  1105
+##  6 HI      183    340  385.  233.   143  1015
+##  7 ID      241    340  399.  217.   143   898
+##  8 IL      321    340  400.  253.   143  1216
+##  9 IN      180    523  529.  286.   143  1105
+## 10 IA      159    340  380.  215.   143  1105
+## # ... with 40 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(twelveM\_Household\_FI\_rasch)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{group\_by}\NormalTok{(Hispanic) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{Median =} \FunctionTok{median}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{mean =} \FunctionTok{mean}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{sd =} \FunctionTok{sd}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Min =} \FunctionTok{min}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Max =} \FunctionTok{max}\NormalTok{(twelveM\_Household\_FI\_rasch)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 7
+##   Hispanic         n Median  mean    sd   Min   Max
+##   <fct>        <int>  <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1 Hispanic      3064    340  398.  232.   143  1303
+## 2 Non-Hispanic  9507    414  423.  244.   143  1303
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(twelveM\_Household\_FI\_rasch)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{group\_by}\NormalTok{(Marital\_status) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{Median =} \FunctionTok{median}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{mean =} \FunctionTok{mean}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{sd =} \FunctionTok{sd}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Min =} \FunctionTok{min}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Max =} \FunctionTok{max}\NormalTok{(twelveM\_Household\_FI\_rasch)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 7 x 7
+##   Marital_status               n Median  mean    sd   Min   Max
+##   <fct>                    <int>  <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1 MARRIED - SPOUSE PRESENT  3244    340  387.  225.   143  1303
+## 2 MARRIED - SPOUSE ABSENT    168    423  436.  236.   143  1105
+## 3 WIDOWED                    648    423  443.  250.   143  1303
+## 4 DIVORCED                  1409    423  476.  262.   143  1216
+## 5 SEPARATED                  309    423  470.  275.   143  1105
+## 6 NEVER MARRIED             3938    414  435.  251.   143  1303
+## 7 <NA>                      2855    340  384.  220.   143  1303
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(twelveM\_Household\_FI\_rasch)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{group\_by}\NormalTok{(High\_Lvl\_Degree) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{Median =} \FunctionTok{median}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{mean =} \FunctionTok{mean}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{sd =} \FunctionTok{sd}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Min =} \FunctionTok{min}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Max =} \FunctionTok{max}\NormalTok{(twelveM\_Household\_FI\_rasch)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 8 x 7
+##   High_Lvl_Degree          n Median  mean    sd   Min   Max
+##   <fct>                <int>  <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1 Less than H.S or GED  2122    414  432.  245.   143  1303
+## 2 H.S or GED            5310    414  426.  246.   143  1303
+## 3 Associate's            905    414  428.  250.   143  1303
+## 4 Bachelor's            1011    340  417.  247.   143  1303
+## 5 Master's               304    340  417.  251.   143  1113
+## 6 Professional            30    310  412.  281.   143  1105
+## 7 Doctorate               34    481  502.  282.   143  1105
+## 8 <NA>                  2855    340  384.  220.   143  1303
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(twelveM\_Household\_FI\_rasch)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{group\_by}\NormalTok{(Sex, Race) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{Median =} \FunctionTok{median}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{mean =} \FunctionTok{mean}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{sd =} \FunctionTok{sd}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Min =} \FunctionTok{min}\NormalTok{(twelveM\_Household\_FI\_rasch),}
+    \AttributeTok{Max =} \FunctionTok{max}\NormalTok{(twelveM\_Household\_FI\_rasch)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'Sex'. You can override using the `.groups`
+## argument.
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 18 x 8
+## # Groups:   Sex [2]
+##    Sex    Race                                  n Median  mean    sd   Min   Max
+##    <fct>  <fct>                             <int>  <dbl> <dbl> <dbl> <dbl> <dbl>
+##  1 Male   White Only                         4193   340   411.  237.   143  1303
+##  2 Male   Other Mixed Race                     64   414   459.  228.   143   984
+##  3 Male   Black Only                         1047   423   434.  245.   143  1216
+##  4 Male   American Indian, Alaskan Native ~   154   452   470.  252.   143  1105
+##  5 Male   Aisan Only                          276   310   383.  247.   143  1303
+##  6 Male   Hawaiian/Pacific Islander Only       46   340   334.  165.   143   661
+##  7 Male   White-Black                          91   340   402.  235.   143  1105
+##  8 Male   White-AI                             56   310   401.  272.   143  1105
+##  9 Male   White-Asian                          31   481   473.  281.   143  1105
+## 10 Female White Only                         4570   340   415.  240.   143  1303
+## 11 Female Other Mixed Race                     66   418.  453.  251.   143   984
+## 12 Female Black Only                         1253   414   436.  246.   143  1216
+## 13 Female American Indian, Alaskan Native ~   184   377   448.  272.   143  1216
+## 14 Female Aisan Only                          311   310   388.  256.   143  1303
+## 15 Female Hawaiian/Pacific Islander Only       53   256   342.  211.   143  1015
+## 16 Female White-Black                          73   340   387.  214.   143  1105
+## 17 Female White-AI                             82   414   458.  271.   143  1105
+## 18 Female White-Asian                          21   340   328.  219.   143   898
+\end{verbatim}
+
+Within the data documentation there is not an explanation given of the
+direction of the food insecurity scale. The means and medians differ but
+interpretation is difficult.
+
+\hypertarget{rasch-scores}{%
+\subsection{rasch Scores}\label{rasch-scores}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Graphing Food Insecurity Rasch scores by Age/Sex}
+\NormalTok{data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(twelveM\_Household\_FI\_rasch)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Age, }\AttributeTok{y =}\NormalTok{ twelveM\_Household\_FI\_rasch, }\AttributeTok{color =}\NormalTok{ Sex)) }\SpecialCharTok{+}
+  \FunctionTok{stat\_summary}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Age, }\AttributeTok{y =}\NormalTok{ twelveM\_Household\_FI\_rasch, }\AttributeTok{group =}\NormalTok{ Sex), }\AttributeTok{fun.y=}\NormalTok{mean, }\AttributeTok{geom=}\StringTok{"line"}\NormalTok{, }\AttributeTok{size =}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Mean Food Insecurity Rasch Score (12 Month Household)"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Food Insecurity Scores of Sexes across Age"}\NormalTok{, }\AttributeTok{caption =} \StringTok{"Source: Current Population Survey Food Security Supplements"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Activity_v3_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+Food Insecurity is roughly parallel between Males and Females across all
+ages. The value of the Rasch score rises until mid 50's and then falls
+until early 80's for both. There are a couple places though that the
+scores diverge, such as at age \textasciitilde50, and early 60's.
+
+Density Plot:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Making a new data frame with only associates and bachelor\textquotesingle{}s degrees}
+\NormalTok{dgr\_df }\OtherTok{\textless{}{-}}\NormalTok{ data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(High\_Lvl\_Degree }\SpecialCharTok{==} \StringTok{"Doctorate"} \SpecialCharTok{|}\NormalTok{ High\_Lvl\_Degree }\SpecialCharTok{==} \StringTok{"Less than H.S or GED"}\NormalTok{)}
+
+\CommentTok{\#Density Plot of Food Insecurity rasch scores}
+\NormalTok{dgr\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(twelveM\_Household\_FI\_rasch)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ twelveM\_Household\_FI\_rasch, }\AttributeTok{fill =}\NormalTok{ High\_Lvl\_Degree)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{alpha =}\NormalTok{ .}\DecValTok{5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =}\StringTok{"Rasch Score (12 Month Household)"}\NormalTok{,}
+       \AttributeTok{title =} \StringTok{"Density plot: Rasch Food Insecurity Scores and Education"}\NormalTok{,}
+       \AttributeTok{caption =} \StringTok{"Source: Current Population Survey Food Security Supplements"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Activity_v3_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+Interpretation is difficult given there's not data documentation of the
+variable, but among degree attainments, these are the most different.
+This manifests in the density plot with less than High School or GED
+peaking for low Rasch score values, while Doctorate is much more spread
+and contains larger counts of high values. Based on intuition and this
+plot alone it would indicate that lower Rasch scores indicate food
+insecurity, and higher Rasch scores indicate Food Security.
+
+\hypertarget{merging-data-set-by-county}{%
+\subsection{Merging Data set by
+County}\label{merging-data-set-by-county}}
+
+Merged\_DataSet is equivalent to data\_dec21 ecept for an additional row
+that gives the percentage of the respective county that is in poverty
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Read in xlsx file}
+\NormalTok{poverty\_data\_large }\OtherTok{\textless{}{-}} \FunctionTok{read\_excel}\NormalTok{(}\StringTok{"C:/Users/foste/Desktop/418 final project folder/PovertyEstimates\_new.xlsx"}\NormalTok{)}
+\NormalTok{poverty\_data\_county }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(poverty\_data\_large,FIPS\_code, PCTPOVALL\_2020)}
+\CommentTok{\#rm(poverty\_data\_large)}
+\end{Highlighting}
+\end{Shaded}
+
+Merging Data sets by inner join
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Merged\_DataSet }\OtherTok{\textless{}{-}}\NormalTok{  data\_dec21 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{inner\_join}\NormalTok{(poverty\_data\_county,}\AttributeTok{by=}\StringTok{"FIPS\_code"}\NormalTok{)}
+\FunctionTok{rm}\NormalTok{(poverty\_data\_large)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{fi_ornot-variable}{%
+\subsection{FI\_orNot Variable}\label{fi_ornot-variable}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#A table }
+\NormalTok{Merged\_DataSet }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{tabyl}\NormalTok{(Sex, FI\_orNot) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_percentages}\NormalTok{(}\StringTok{"row"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{adorn\_pct\_formatting}\NormalTok{(}\AttributeTok{digits =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Sex High Food Security Food Insecure
+##    Male              82.9%         17.1%
+##  Female              81.9%         18.1%
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Creating d5 which holds the 10 counties with the highest percentage of food insecure}
+\NormalTok{d4 }\OtherTok{\textless{}{-}}\NormalTok{ Merged\_DataSet }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FIPS\_code),}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(Stabr,FIPS\_code, FI\_orNot) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{perc\_FI =}\NormalTok{ count}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(count))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'Stabr', 'FIPS_code'. You can override
+## using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d5 }\OtherTok{\textless{}{-}}\NormalTok{ d4 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(FI\_orNot }\SpecialCharTok{==} \StringTok{"Food Insecure"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(perc\_FI))}
+
+\NormalTok{d5 }\OtherTok{\textless{}{-}} \FunctionTok{head}\NormalTok{(d5, }\DecValTok{10}\NormalTok{)}
+
+\CommentTok{\#Top ten food insecure counties I have data on}
+\NormalTok{d5 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(FI\_orNot }\SpecialCharTok{==} \StringTok{"Food Insecure"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{fct\_reorder}\NormalTok{(FIPS\_code, perc\_FI, }\AttributeTok{.desc =} \ConstantTok{TRUE}\NormalTok{), }\AttributeTok{y =}\NormalTok{ perc\_FI}\SpecialCharTok{*}\DecValTok{100}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{width =}\NormalTok{ .}\DecValTok{7}\NormalTok{, }\AttributeTok{fill =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle=}\DecValTok{45}\NormalTok{, }\AttributeTok{vjust=}\DecValTok{1}\NormalTok{, }\AttributeTok{hjust=}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Top Ten Food Insecure Counties"}\NormalTok{,}\AttributeTok{y =} \StringTok{"Percentage Food Insecure of County"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"County FIPS Code "}\NormalTok{,}
+       \AttributeTok{caption =} \StringTok{"Source: Current Population Survey Food Security Supplements"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =}\NormalTok{ Stabr), }\AttributeTok{nudge\_y =} \SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\AttributeTok{color =} \StringTok{"white"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Activity_v3_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+This bar graph shows the top 10 counties in the data for food
+insecurity, specifically using the FI\_orNot variable, and looking at
+the percentage of that county in the data that is food insecure. One can
+look up more information on these counties using the FIPS code shown on
+the graph. These FIPS codes are standardized across the U.S. The
+abbreviation of the respective States was also added to the plot. This
+plot shows two counties from Texas in the top 10, as well as two
+counties from Californian.
+
+RACE:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# returns a data\_frame that has the percentage of each race that is food insecure or not}
+\NormalTok{d2 }\OtherTok{\textless{}{-}}\NormalTok{ Merged\_DataSet }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(Race),}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(Race, FI\_orNot) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{perc\_FIofRace =}\NormalTok{ count}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(count))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'Race'. You can override using the
+## `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#ggplot for percentage of each race that is food insecure}
+\CommentTok{\#d2 \%\textgreater{}\% filter(FI\_orNot == "Food Insecure") \%\textgreater{}\% }
+\CommentTok{\#  ggplot(aes(x = fct\_reorder(Race, perc\_FIofRace, .desc = TRUE), y = perc\_FIofRace*100)) +}
+\CommentTok{\#  geom\_bar(stat = "identity", width = .7) +}
+\CommentTok{\#  theme(axis.text.x = element\_text(angle=70, vjust=1, hjust=1)) +}
+\CommentTok{\#  labs(title = "Food Insecurity and Race",y = "Percentage Food Insecure ", }
+ \CommentTok{\#      caption = "Source: Current Population Survey Food Security Supplements") }
+  
+
+\CommentTok{\#now find the racial makeup of those counties, d6 holds the racial makeup for all counties with data}
+\NormalTok{d6 }\OtherTok{\textless{}{-}}\NormalTok{ Merged\_DataSet }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FIPS\_code),}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot), }\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(Race)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(Stabr,FIPS\_code, Race) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{perc\_RaceCounty =}\NormalTok{ count}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(count))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'Stabr', 'FIPS_code'. You can override
+## using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Merging data sets to create}
+\NormalTok{Merged\_FICounty\_Race }\OtherTok{\textless{}{-}}\NormalTok{ d5 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{inner\_join}\NormalTok{(d6,}\AttributeTok{by=}\StringTok{"FIPS\_code"}\NormalTok{)}
+
+
+\CommentTok{\#Racial Makeup of 10 most food insecure counties by percentage}
+\NormalTok{Merged\_FICounty\_Race }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{fct\_reorder}\NormalTok{(FIPS\_code, perc\_FI, }\AttributeTok{.desc =} \ConstantTok{TRUE}\NormalTok{), }\AttributeTok{y =}\NormalTok{ perc\_RaceCounty}\SpecialCharTok{*}\DecValTok{100}\NormalTok{, }\AttributeTok{fill =}\NormalTok{ Race)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{width =}\NormalTok{ .}\DecValTok{7}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Racial Demographics of 10 Most Food Insecure Counties"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"County FIPS Code in Descending order of Food Insecurity"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Percentage Food Insecure "}\NormalTok{,}
+       \AttributeTok{caption =} \StringTok{"Source: Current Population Survey Food Security Supplements"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_colorblind}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle=}\DecValTok{45}\NormalTok{, }\AttributeTok{vjust=}\DecValTok{1}\NormalTok{, }\AttributeTok{hjust=}\DecValTok{1}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Activity_v3_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+The top 10 food insecure counties in the data were taken then and put in
+the exact same order as previously listed, as in descending order from
+most food insecure as a percentage of the population to least. We now
+look at the data within these food insecure counties to look at racial
+demographics. In a couple of the counties there is a large Black
+population, which would be consistent with earlier data exploration
+findings of the association between food insecurity and race.
+
+Looking at the data directly the confidence of these percentages being
+accurate to the real county demographics is very questionable. In 39103
+there was only 7 people surveyed, all of which were white. A very small
+sample will not give us high confidence in neither the food insecurity
+proportion nor the racial demographic spread. Unique county codes had to
+be created from code and do not exist originally in the Current
+Population Food Security Supplements, and so I determine that the
+survery was most likley not intended for county level descriptions.
+
+This racial makeup data does not take into account Hispanic status:
+
+HISPANIC
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#creating a data frame that has the percentage hispanic in each in all counties with data}
+\NormalTok{d7 }\OtherTok{\textless{}{-}}\NormalTok{ Merged\_DataSet }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FIPS\_code),}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot), }\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(Hispanic)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(Stabr,FIPS\_code, Hispanic) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{perc\_HispanicCounty =}\NormalTok{ count}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(count))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'Stabr', 'FIPS_code'. You can override
+## using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d8 }\OtherTok{\textless{}{-}}\NormalTok{ d7 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Hispanic }\SpecialCharTok{==} \StringTok{"Hispanic"}\NormalTok{)}
+
+\CommentTok{\#Merging to create a new data from top 10 most food insecure counties with }
+\NormalTok{Merged\_FICounty\_Hispanic\_Race }\OtherTok{\textless{}{-}}\NormalTok{ d5 }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{inner\_join}\NormalTok{(d8,}\AttributeTok{by=}\StringTok{"FIPS\_code"}\NormalTok{)}
+
+\CommentTok{\#PIE chart for Hispanic ID proportion of county}
+\NormalTok{d7 }\SpecialCharTok{\%\textgreater{}\%}  \FunctionTok{filter}\NormalTok{(FIPS\_code }\SpecialCharTok{==} \StringTok{"06053"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =}\NormalTok{ perc\_HispanicCounty, }\AttributeTok{fill =}\NormalTok{ Hispanic)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{width =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{coord\_polar}\NormalTok{(}\StringTok{"y"}\NormalTok{, }\AttributeTok{start=}\DecValTok{0}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \FunctionTok{paste0}\NormalTok{(}\FunctionTok{round}\NormalTok{(perc\_HispanicCounty}\SpecialCharTok{*}\DecValTok{100}\NormalTok{, }\DecValTok{1}\NormalTok{), }\StringTok{"\%"}\NormalTok{)), }\AttributeTok{position =} \FunctionTok{position\_stack}\NormalTok{(}\AttributeTok{vjust=}\FloatTok{0.5}\NormalTok{), }\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =}\ConstantTok{NULL}\NormalTok{, }\AttributeTok{y =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{fill =} \ConstantTok{NULL}\NormalTok{,}
+    \AttributeTok{title =} \StringTok{"Percent Hispanic }\SpecialCharTok{\textbackslash{}n}\StringTok{ of County (06053)"}\NormalTok{,}
+    \AttributeTok{caption =} \StringTok{"Source: Current Population Survey Food Security Supplements"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_few}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_colorblind}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{), }\AttributeTok{plot.caption =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Activity_v3_files/figure-latex/unnamed-chunk-16-1.pdf}
+Hispanic identification is not coded along with race, as the data
+documentation explains that any race can be Hispanic. But looking at the
+racial categories drawn in the data, it is missing some categories that
+live in the minds of the average American. Hispanic ID is associated
+with some of these categories.
+
+Looking at the county 06053 from the top ten food insecure counties,
+which is Monterey County, CA, the population is 57\% Hispanic. THis
+county also had a low percentage of non-white residents compared to some
+other counties in the top ten.
+
+RACE AND HISPANIC
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#merging data to have both race and Hispanic percentages in a datafile, i}
+\NormalTok{merged\_hisp\_race\_data }\OtherTok{\textless{}{-}}\NormalTok{ Merged\_FICounty\_Race }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{full\_join}\NormalTok{(Merged\_FICounty\_Hispanic\_Race,}\AttributeTok{by=}\StringTok{"FIPS\_code"}\NormalTok{)}
+
+\CommentTok{\#Racial and Hispanic Makeup of 10 most food insecure counties by percentage}
+\NormalTok{merged\_hisp\_race\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{fct\_reorder}\NormalTok{(FIPS\_code, perc\_FI.x, }\AttributeTok{.desc =} \ConstantTok{TRUE}\NormalTok{),}\AttributeTok{y =}\NormalTok{ perc\_RaceCounty}\SpecialCharTok{*}\DecValTok{100}\NormalTok{, }\AttributeTok{fill =}\NormalTok{ Race)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{width =}\NormalTok{ .}\DecValTok{7}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Racial and Hispanic Proportion (Separately) of}\SpecialCharTok{\textbackslash{}n}\StringTok{ 10 Most Food Insecure Counties"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"County FIPS Code in Descending order of Food Insecurity"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Percentage of County Population"}\NormalTok{,}
+       \AttributeTok{caption =} \StringTok{"Source: Current Population Survey Food Security Supplements"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_colorblind}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{geom\_col}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ perc\_HispanicCounty}\SpecialCharTok{*}\DecValTok{100}\NormalTok{, }\AttributeTok{fill =} \StringTok{"Hispanic"}\NormalTok{), }
+         \AttributeTok{width =} \FloatTok{0.3}\NormalTok{,}
+         \AttributeTok{position =} \FunctionTok{position\_nudge}\NormalTok{(}\AttributeTok{x =} \FloatTok{0.3}\NormalTok{),}
+         \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+   \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle=}\DecValTok{45}\NormalTok{, }\AttributeTok{vjust=}\DecValTok{1}\NormalTok{, }\AttributeTok{hjust=}\DecValTok{1}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Activity_v3_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+We now overlay the percentage of the county that is Hispanic onto the
+ggplot containing racial demographic proportions. This percentage
+Hispanic is a separate variable to the percentage of each race variable.
+If this plot is not read correctly then one could have incorrect
+interpretations about what percentage of ``White Only'' persons are
+Hispanic vs.~percentage of ``Black Only.'' The second bar indicating
+Hispanic ID is also not meant to be stacked on top of the other Race
+levels (this would indicate that only the white coded population is
+Hispanic which is not true for every county).
+
+If more coding was done, the height of each Hispanic bar could be raised
+or lowered depending on the share of each coded race (for a specific
+county) that is Hispanic. Data is available in the CPS to do so.
+
+In counties such as 48135 and 06053 there is a large percentage of
+Hispanic people, while county 39103 has a completely White and
+non-Hispanic survey sample. The survey sample is very small, but not far
+from the demographics listed on the county's Wikipedia:
+\url{https://en.wikipedia.org/wiki/Medina_County,_Ohio}.
+
+Based on the visuals of this plot, Hispanic identity most likely is a
+piece of the puzzle left out by CPS Racial Demographic descriptions of
+food insecurity in Counties. Those looking to demonstrate disparities
+caused by historical or current discrimination should take this into
+account.
+
+\hypertarget{pivoting-wider}{%
+\subsection{Pivoting Wider}\label{pivoting-wider}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# returns a data\_frame that has the percentage of each Sex that is food insecure or not}
+\NormalTok{d3 }\OtherTok{\textless{}{-}}\NormalTok{ Merged\_DataSet }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(Sex),}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FI\_orNot)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(Sex, FI\_orNot) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{perc\_FIofSex =}\NormalTok{ count}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(count))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'Sex'. You can override using the `.groups`
+## argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#pivot the data frame into a wide format}
+\NormalTok{d3\_wider }\OtherTok{\textless{}{-}}\NormalTok{ d3 }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pivot\_wider}\NormalTok{(}
+    \AttributeTok{names\_from =}\NormalTok{ FI\_orNot, }
+    \AttributeTok{values\_from =}\NormalTok{ count}
+\NormalTok{  )}
+
+\FunctionTok{glimpse}\NormalTok{(d3\_wider)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 4
+## Columns: 4
+## Groups: Sex [2]
+## $ Sex                  <fct> Male, Male, Female, Female
+## $ perc_FIofSex         <dbl> 0.8289700, 0.1710300, 0.8194945, 0.1805055
+## $ `High Food Security` <int> 28878, NA, 30023, NA
+## $ `Food Insecure`      <int> NA, 5958, NA, 6613
+\end{verbatim}
+
+\end{document}

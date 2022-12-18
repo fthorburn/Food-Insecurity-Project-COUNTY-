@@ -70,7 +70,7 @@ Merged_FICounty_Race <- d5 %>% inner_join(d6,by="FIPS_code")
 
 
 #Racial Makeup of 10 most food insecure counties by percentage
-countyMergedData %>%
+Merged_FICounty_Race %>%
   ggplot(aes(x = fct_reorder(FIPS_code, perc_FI, .desc = TRUE), y = perc_RaceCounty*100, fill = Race)) +
   geom_bar(stat = "identity", width = .7, color = "black") +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) +
@@ -148,4 +148,11 @@ data_dec21 %>% filter(FIPS_code == "48439") %>%
   tabyl(Race, Hispanic) %>% 
   adorn_percentages("row") %>% 
   adorn_pct_formatting(digits = 1)
+
+
+
+
+
+
+Date <- make_date(year = 2021, month = 12)
 

@@ -1,7 +1,7 @@
 ---
 title: "Final_Activity_v3"
 author: "Foster Thorburn"
-date: "2022-11-30"
+date: "2022-12-11"
 output:
   html_document: default
   pdf_document: default
@@ -11,8 +11,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r libraries}
-#edit test
+```{r libraries, warning = FALSE}
 library(ggplot2)
 library(dplyr)
 library(RWDataPlyr)
@@ -23,24 +22,13 @@ library(janitor)
 library(stringr)
 library(tidyr)
 library(ggthemes)
+library(tibble)
+library(purrr)
+library(ggplot2)
+library(lubridate)
 ```
 
-## Data Dictionary (after recoding)
-```{r}
 
-variable <- c("FIPS_code", "GTCSA", "Stabr", "Age", "Race", "Sex", 
-                     "Marital_status", "High_Lvl_Degree", "twelveM_Household_FI", "twelveM_Household_FI_Rasche", "FI_orNot")
-
-description <- c("Unique County Code", "Consolidated Statistical Area (CSA) FIPS code", "Abreviated State Name", "Age", "Race", "Sex", "Marital Status","Highest Level Ed. Degree Completeed", "Household Food Security Scale, 12-Month Reference Period", "Food Security Rasch Scale Score, 
-12-Month Recall", "High Food Insecurity or not")
-
-type <- c("Categorical", "Categorical", "Categorical", "Quantitative", "Categorical", "Categorical", "Categorical", "Categorical", "Quantitative", "Categorical", "Categrorical")
-
-data_dec21_dictionary <- data.frame(variable, description, type)
-
-data_dec21_dictionary
-  
-```
 
 
 
@@ -57,8 +45,10 @@ Subsetting Food Supplement data set for variables
 
 
 
-data_dec21 <- select(dec21pub, GTCO, GTCSA, PRTAGE, PTDTRACE, PESEX, 
+data_dec21 <- select(dec21pub, GTCO, PRTAGE, PTDTRACE, PESEX, 
                      PEMARITL, GESTFIPS, PEEDUCA,PEHSPNON, HRFS12M4, HRFS12M1, HRFS12MD)
+
+
 
 #removing old F.S data sets
 rm(dec21pub)
@@ -117,7 +107,11 @@ data_dec21 <- data_dec21 %>%
 
 
 Re-coding Demographic Variables
-```{r} 
+```{r, warning = FALSE} 
+
+#Creating Date variable uisng libridate function make_date
+data_dec21 <- data_dec21 %>% 
+  mutate(Date = make_date(year = 2021, month = 12)) #Condenses year and month to one variable
 
 
 #Replacing -1 values with NA for entire data set
@@ -138,14 +132,6 @@ data_dec21 <- data_dec21 %>%
       "Non-Hispanic" = "2"))
 
 
-#Recoding CSA Area variable
-data_dec21 <- data_dec21 %>% 
-  mutate(CSA_Area = factor(GTCSA) %>% 
-    fct_recode(
-      "Grand Rapids-Wyoming" = "24340",
-      "Detroit-Warren-Dearborn" = "24340",
-      "Ann Arbor" = "11460",
-      "Lansing-East Lansing" = "29620"))
 
 #Re-coding marital status variable
 data_dec21 <- data_dec21 %>% 
@@ -162,7 +148,7 @@ data_dec21 <- data_dec21 %>%
 data_dec21 <- data_dec21 %>% 
   mutate(High_Lvl_Degree = factor(PEEDUCA) %>% 
     fct_recode(
-      "Less than H.S or GED" = "31",
+      "Less than H.S or GED" = "31", #Grouping multiple Education Acheivements that are less than H.S or GED into one category 
       "Less than H.S or GED" = "32",
       "Less than H.S or GED" = "33",
       "Less than H.S or GED" = "34",
@@ -185,7 +171,7 @@ data_dec21 <- data_dec21 %>%
 data_dec21$GESTFIPS <- as.character(data_dec21$GESTFIPS)
 #summary(data_dec21$GESTFIPS)
 
-#Changing data set to make a new column called "Stabr" which is the state abreviation
+#Changing data set to make a new column called "Stabr" which is the state abbreviation
 data_dec21 <- data_dec21 %>%
                    mutate(Stabr = factor(GESTFIPS) %>%
                      fct_recode( 
@@ -241,15 +227,9 @@ data_dec21 <- data_dec21 %>%
            "WI" = "55",
            "WY" = "56"))
 
-#data_dec21 <- data_dec21 %>%
-#                   mutate(new_name = factor(oldname) %>%
-#                     fct_recode( 
-#           "new_level" = "old_level")
-
 
 
 #Recoding Race Variable 
-
 data_dec21$PTDTRACE <- as.character(data_dec21$PTDTRACE)
 
 data_dec21 <- data_dec21 %>% 
@@ -270,7 +250,7 @@ data_dec21 <- data_dec21 %>%
       "AI-Asian" = "13",
       "AI-HP" = "14",
       "Asian-HP" = "15",
-      "3+ mixed-race" = "16",
+      "3+ mixed-race" = "16", #Grouping multiple race categories into one category 
       "3+ mixed-race" = "17", 
       "3+ mixed-race" = "18", 
       "3+ mixed-race" = "19", 
@@ -298,6 +278,7 @@ data_dec21 <- data_dec21 %>%
 
                   
 ```
+
 Re-coding Food Security Measures
 ```{r}
 #Mutating to re code Main food insecurity measure variable
@@ -308,12 +289,12 @@ Re-coding Food Security Measures
              "Low Food Security" = "2",
              "Very Low Food Security" = "3"))
  
- #Mutating to recode food insecurity scale Rasche variable
+ #Mutating to recode food insecurity scale rasch variable
  data_dec21 <- data_dec21 %>% 
-  mutate(twelveM_Household_FI_Rasche = factor(HRFS12M4))
- #Making the Rasche variable numeric so it can be graphed
+  mutate(twelveM_Household_FI_rasch = factor(HRFS12M4))
+ #Making the rasch variable numeric so it can be graphed
  
- data_dec21$twelveM_Household_FI_Rasche <- as.numeric(as.character(data_dec21$twelveM_Household_FI_Rasche))
+ data_dec21$twelveM_Household_FI_rasch <- as.numeric(as.character(data_dec21$twelveM_Household_FI_rasch))
  
  
  #Mutating to re code food insecurity variable which combines the main food insecurity measure into food insecure or not
@@ -331,90 +312,48 @@ Re-selecting Re-coded Variables for new data set
 
 ```{r}
 
-data_dec21 <- select(data_dec21,FIPS_code, GTCSA, Stabr, Age, Race, Sex,Hispanic, 
-                     Marital_status, High_Lvl_Degree, twelveM_Household_FI, twelveM_Household_FI_Rasche, FI_orNot)
 
+
+data_dec21 <- select(data_dec21, Date, FIPS_code, Stabr, Age, Race, Sex, Hispanic, 
+                     Marital_status, High_Lvl_Degree, twelveM_Household_FI, twelveM_Household_FI_rasch, FI_orNot)
 
 
 
 ```
 
-Summary Statistics of characteristic variables
+
+
+
+
+
+Data Exploration:
 
 ```{r}
-#Age
 summary(data_dec21$Age)
-
-hist(data_dec21$Age, main = "Histogram of Age")
-
-#Race
-
-summary(data_dec21$Race)
-
-data_dec21 %>%  filter(!is.na(Race)) %>% ggplot(aes(x = Race)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels 
-  labs(title = "Histogram of Race Counts", x = "Race", caption = "Source: Current Population Survey Food Security Supplements")
-
-
-#Sex
-data_dec21 %>%  filter(!is.na(Sex)) %>% ggplot(aes(x = Sex)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
-  labs(title = "Histogram of Sex Counts", x = "Sex", caption = "Source: Current Population Survey Food Security Supplements")
-
-
-#Marital Status
-data_dec21 %>%  filter(!is.na(Marital_status)) %>% ggplot(aes(x = Marital_status)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
-  labs(title = "Histogram of Marital Status Counts", x = "Marital Status", caption = "Source: Current Population Survey Food Security Supplements")
-
-
-#High Level Degree
-data_dec21 %>%  filter(!is.na(High_Lvl_Degree)) %>% ggplot(aes(x = High_Lvl_Degree)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
-  labs(title = "Histogram of Highest Level Degree Counts", x = "Highest Level Degree", caption = "Source: Current Population Survey Food Security Supplements")
-
-## Geographic
-
-#State
-data_dec21 %>%  filter(!is.na(Stabr)) %>% ggplot(aes(x = Stabr)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
-  labs(title = "Histogram of State Counts", x = "State", caption = "Source: Current Population Survey Food Security Supplements") +
-  theme(axis.text.x = element_text(size = 7, face = "bold")) #making x-axis names bold and sliglty smaller for visibility
-
-#Hispanic
-data_dec21 %>%  filter(!is.na(Hispanic)) %>% ggplot(aes(x = Hispanic)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
-  labs(title = "Histogram of Hispanics", x = "Hispanic or not", caption = "Source: Current Population Survey Food Security Supplements") +
-  theme(axis.text.x = element_text(size = 7, face = "bold")) #making x-axis names bold and sliglty smaller for visibility
-
-
 ```
 
-Summary Statistics of Food Security Measures
+
 ```{r}
 
 #Food Insecurity Main measure
 data_dec21 %>%  filter(!is.na(twelveM_Household_FI)) %>% ggplot(aes(x = twelveM_Household_FI)) +
   geom_bar() +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
-  labs(title = "Histogram of Main Food Insecurity Measure Counts", x = "Food Insecurity Level", caption = "Source: Current Population Survey Food Security Supplements")
+  labs(title = "Main Food Insecurity Measure Counts", x = "Food Insecurity Level", caption = "Source: Current Population Survey Food Security Supplements")
 
 
 #Food Insecurity
 data_dec21 %>%  filter(!is.na(FI_orNot)) %>% ggplot(aes(x = FI_orNot)) +
   geom_bar() +
   theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels
-  labs(title = "Histogram of High Food Insecurity or Not Counts", x = "Food Insecurity Level", caption = "Source: Current Population Survey Food Security Supplements")
+  labs(title = "High Food Insecurity or Not Counts", x = "Food Insecurity Level", caption = "Source: Current Population Survey Food Security Supplements")
+
 ```
 
+In both categorizations of food insecurity, most people are food secure.
 
-Based on the histogram of Race I have decided to make some of the values mixed race rather than their own category due to their relatively extremely low numbers:
+
+Based on the Counts of Race I have decided to make some of the values mixed race rather than their own category due to their relatively extremely low numbers:
 
 Other Mixed Race:
 Black-Asian 
@@ -447,7 +386,7 @@ Re-coding the Race variable:
 data_dec21 <- data_dec21 %>% 
   mutate(Race = factor(Race) %>% 
     fct_recode(
-      "Other Mixed Race" = "Black-Asian",
+      "Other Mixed Race" = "Black-Asian", #Adding even more race cateogries to mixed race
       "Other Mixed Race" = "AI-HP",
       "Other Mixed Race" = "Black-HP",
       "Other Mixed Race" = "Asian-HP",
@@ -457,100 +396,257 @@ data_dec21 <- data_dec21 %>%
       "Other Mixed Race" = "AI-Asian",
       "Other Mixed Race" = "3+ mixed-race"))
 
-#Rerunning Race Histogram Code
-data_dec21 %>%  filter(!is.na(Race)) %>% ggplot(aes(x = Race)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) + #45 degree angle labels 
-  labs(title = "Histogram of Race Counts", x = "Race", caption = "Source: Current Population Survey Food Security Supplements")
 
-summary(data_dec21$Race)
+data_dec21 %>% count(Race)
 
 ```
 
-## Final Look at data_dec21 dataset
+## Data Dictionary
 ```{r}
 
 skim(data_dec21)
 
 glimpse(data_dec21)
 
+#Creating a table, assigning strings to go with each other to describe variables
+dataDictionary <- tibble(Variable = colnames(data_dec21),
+                         Description = c("Date: (Year-Month-Day)","Unique County Code", "Abreviated State Name", "Age (Years)", "Racial Identification", "Sex", "Hispanic Identification", "Marital Status","Highest Level Educational Degree Completed", "Household Food Security Scale, 12-Month Reference Period", "Food Security Rasch Scale Score, 12-Month Recall", "High Food Insecurity or Food Security (Marginal Food Security Counted as Food Insecure)"),
+                         Type = map_chr(data_dec21, .f = function(x){typeof(x)[1]}),
+                         Class = map_chr(data_dec21, .f = function(x){class(x)[1]}))
+#printing table
+knitr::kable(dataDictionary) 
+
 ```
 
+Patterns of NA:
+
+There are no NA values for the geographic variables that are FIPS code and State (FIPS_code, Stabr).
+
+Around 20% of the values of Age, Race, Sex, and Hispanic ID, are NA values.
+
+Around 34% of the values of Marital Status and Highest Level Degree are NA's
+
+Around 44% of the values of the Categorical Food Insecurity measures are NA's.
+
+About 91% of the continuous Food Insecurity Rasch Score measure is NA values.
+
+Each group of these variables that contain differing percentages of NA's, are different kinds of variables with very consistent number of missing values for their category. 
+
+## Summary Statistics - Food Insecurity or Not
+
+
+A breakdown by percentage of each group that is food insecure or not:
+```{r}
+#Highest Level Degree Completed
+data_dec21 %>% filter(!is.na(FI_orNot)) %>% 
+tabyl(High_Lvl_Degree, FI_orNot) %>% 
+  adorn_percentages("row") %>% #gives percentages to the tables
+  adorn_pct_formatting(digits = 1)
+
+#Racial Identity
+data_dec21 %>% filter(!is.na(FI_orNot)) %>% 
+tabyl(Race, FI_orNot) %>% 
+  adorn_percentages("row") %>% 
+  adorn_pct_formatting(digits = 1)
+
+#Hispanic Identity
+data_dec21 %>% filter(!is.na(FI_orNot)) %>% 
+tabyl(Hispanic, FI_orNot) %>% 
+  adorn_percentages("row") %>% 
+  adorn_pct_formatting(digits = 1)
+
+#State abbreviation
+data_dec21 %>% filter(!is.na(FI_orNot)) %>% 
+tabyl(Stabr, FI_orNot) %>% 
+  adorn_percentages("row") %>% 
+  adorn_pct_formatting(digits = 1)
+
+#Marital STatus 
+data_dec21 %>% filter(!is.na(FI_orNot)) %>% 
+tabyl(Marital_status, FI_orNot) %>% 
+  adorn_percentages("row") %>% 
+  adorn_pct_formatting(digits = 1)
+
+#Highest Level Degree
+data_dec21 %>% filter(!is.na(FI_orNot)) %>% 
+tabyl(High_Lvl_Degree, FI_orNot) %>% 
+  adorn_percentages("row") %>% 
+  adorn_pct_formatting(digits = 1)
 
 
 
-## Looking at Food insecurity 
 
 
-Rasche Scores
+
+```
+As educational degree completion rises, so does food security.
+
+White Only, Asian only, and White-Asian identified groups are the most food secure populations out of other races. Every other race is twice as food insecure as a proportion of their population. 
+
+New Hampshire is a relatively food secure State. 
+
+Hispanics are about twice as food insecure as non-Hispanics as a proportion of their populations
+
+The most food insecure marital status is separated spouses, the least is married with spouse present
+
+
+
+Summary Statistics - Rasch Scores for characteristic Variables
+
+```{r}
+
+summary(data_dec21$twelveM_Household_FI_rasch)
+
+#Sex
+data_dec21 %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% 
+group_by(Sex) %>%
+  summarise(
+    n = n(),
+    Median = median(twelveM_Household_FI_rasch),
+    mean = mean(twelveM_Household_FI_rasch),
+    sd = sd(twelveM_Household_FI_rasch),
+    Min = min(twelveM_Household_FI_rasch),
+    Max = max(twelveM_Household_FI_rasch)
+  )
+
+#Racial Identity
+data_dec21 %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% 
+group_by(Race) %>%
+  summarise(
+    n = n(),
+    Median = median(twelveM_Household_FI_rasch),
+    mean = mean(twelveM_Household_FI_rasch),
+    sd = sd(twelveM_Household_FI_rasch),
+    Min = min(twelveM_Household_FI_rasch),
+    Max = max(twelveM_Household_FI_rasch)
+  )
+
+#State abbreviation
+data_dec21 %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% 
+group_by(Stabr) %>%
+  summarise(
+    n = n(),
+    Median = median(twelveM_Household_FI_rasch),
+    mean = mean(twelveM_Household_FI_rasch),
+    sd = sd(twelveM_Household_FI_rasch),
+    Min = min(twelveM_Household_FI_rasch),
+    Max = max(twelveM_Household_FI_rasch)
+  )
+
+#Hispanic Identity 
+data_dec21 %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% 
+group_by(Hispanic) %>%
+  summarise(
+    n = n(),
+    Median = median(twelveM_Household_FI_rasch),
+    mean = mean(twelveM_Household_FI_rasch),
+    sd = sd(twelveM_Household_FI_rasch),
+    Min = min(twelveM_Household_FI_rasch),
+    Max = max(twelveM_Household_FI_rasch)
+  )
+
+#Marital Status 
+data_dec21 %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% 
+group_by(Marital_status) %>%
+  summarise(
+    n = n(),
+    Median = median(twelveM_Household_FI_rasch),
+    mean = mean(twelveM_Household_FI_rasch),
+    sd = sd(twelveM_Household_FI_rasch),
+    Min = min(twelveM_Household_FI_rasch),
+    Max = max(twelveM_Household_FI_rasch)
+  )
+
+#Highest Level Degree Completed
+data_dec21 %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% 
+group_by(High_Lvl_Degree) %>%
+  summarise(
+    n = n(),
+    Median = median(twelveM_Household_FI_rasch),
+    mean = mean(twelveM_Household_FI_rasch),
+    sd = sd(twelveM_Household_FI_rasch),
+    Min = min(twelveM_Household_FI_rasch),
+    Max = max(twelveM_Household_FI_rasch)
+  )
+
+#This table breaks the Rasch score down by Race AND Sex
+data_dec21 %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% 
+group_by(Sex, Race) %>%
+  summarise(
+    n = n(),
+    Median = median(twelveM_Household_FI_rasch),
+    mean = mean(twelveM_Household_FI_rasch),
+    sd = sd(twelveM_Household_FI_rasch),
+    Min = min(twelveM_Household_FI_rasch),
+    Max = max(twelveM_Household_FI_rasch)
+  )
+
+```
+
+Within the data documentation there is not an explanation given of the direction of the food insecurity scale. The means and medians differ but interpretation is difficult. 
+
+Male and Females have equal median values.
+
+Delaware has the highest median value at 523, and Connecticut has the lowest median value at 256. 
+
+Hispanic has a lower median value than Non_Hispanic ID.
+
+All marital statuses that are not married with spouse present have a lower median score. 
+
+As degree completion rises, so does the median score. 
+
+Black Only has the highest median scores among the race categories. 
+
+
+
+## rasch Scores
 ```{r, warning = FALSE}
 
-#data_dec21$HRFS12M4 <- as.numeric(data_dec21$HRFS12M4)
-#rasche_FIscore12mHoushold <-data_dec21$HRFS12M4
-#data_dec21$twelveM_Household_FI_Rasche <- as.numeric(data_dec21$twelveM_Household_FI_Rasche)
-
-#Graphing Food Insecurity Rasche scores by Age/Gender
-data_dec21 %>% filter(!is.na(twelveM_Household_FI_Rasche)) %>% 
-  ggplot(aes(x = Age, y = twelveM_Household_FI_Rasche, color = Sex)) +
-  geom_jitter(alpha = .05) +
-  stat_summary(aes(x = Age, y = twelveM_Household_FI_Rasche, group = Sex), fun.y=mean, geom="line", size =1.5) +
-  labs(y = "Mean Food Insecurity Rasche Score (HRFS12M4)", title = "Mean Food Insecurity Rasche Scores by Age/Gender", caption = "Source: Current Population Survey Food Security Supplements") +
+#Graphing Food Insecurity Rasch scores by Age/Sex
+data_dec21 %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% 
+  ggplot(aes(x = Age, y = twelveM_Household_FI_rasch, color = Sex)) + #Color of plot divided by Sex
+  stat_summary(aes(x = Age, y = twelveM_Household_FI_rasch, group = Sex), fun.y=mean, geom="line", size =1.5) + #Adds Sex line
+  labs(y = "Food Insecurity, Household 12 Month (Mean Rasch Score)", title = "Food Insecurity Scores of Sexes across Age", caption = "Source: Current Population Survey Food Security Supplements",
+       x = "Age (Years)") +
   theme_bw() 
 
 
-data_dec21 %>% filter(!is.na(twelveM_Household_FI_Rasche)) %>% 
-tabyl(Sex, twelveM_Household_FI_Rasche) %>% 
-  adorn_percentages("row") %>% 
-  adorn_pct_formatting(digits = 1)
-
 ```
 
-FI_orNot Variable
+
+Food Insecurity is roughly parallel between Males and Females across all ages. The value of the Rasch score rises until mid 50's and then falls until early 80's for both. There are a couple places though that the scores diverge, such as at age ~50, and early 60's.
+
+Density Plot:
 ```{r}
 
+#Making a new data frame with only associates and bachelor's degrees
+dgr_df <- data_dec21 %>% filter(High_Lvl_Degree == "Doctorate" | High_Lvl_Degree == "Less than H.S or GED")
 
-
-
-
-#A table 
-data_dec21 %>% filter(!is.na(FI_orNot)) %>% 
-tabyl(Sex, FI_orNot) %>% 
-  adorn_percentages("row") %>% 
-  adorn_pct_formatting(digits = 1)
-
-
-
-#subset(data_dec21, Race == "White Only") 
-
-
-
-#data_dec21 %>% filter(!is.na(FI_orNot), FI_orNot == #"Food Insecure") %>% 
-#  ggplot(aes(x = Sex, y = )) +
-#  geom_bar(aes(y = ..prop.., fill = factor(..x..)),stat #= count) +
-#  scale_y_continuous(label = scales::percent)
-  
-
+#Density Plot of Food Insecurity rasch scores
+dgr_df %>% filter(!is.na(twelveM_Household_FI_rasch)) %>% 
+  ggplot(aes(x = twelveM_Household_FI_rasch, fill = High_Lvl_Degree)) +
+  geom_density(alpha = .5) +
+  labs(x ="12 Month Household Rasch Score",
+       title = "Density plot: Rasch Food Insecurity Scores and Education",
+       caption = "Source: Current Population Survey Food Security Supplements")
+ 
 
 ```
 
+Interpretation is difficult given there's not data documentation of the variable, but among degree attainments, these are the most different. This manifests in the density plot with less than High School or GED peaking for low Rasch score values, while Doctorate is much more spread and contains larger counts of high values. Based on intuition and this plot alone it would indicate that lower Rasch scores indicate food insecurity, and higher Rasch scores indicate Food Security.
 
 
 
 
+## Merging Data set by County
 
-
-
-## Merging Data sets
-
-Importing 2nd data set
+Merged_DataSet is equivalent to data_dec21 except for an additional row that gives the percentage of the respective county that is in poverty
 
 ```{r}
 #Read in xlsx file
 poverty_data_large <- read_excel("C:/Users/foste/Desktop/418 final project folder/PovertyEstimates_new.xlsx")
-
 poverty_data_county <- select(poverty_data_large,FIPS_code, PCTPOVALL_2020)
 #rm(poverty_data_large)
-
 ```
 
 Merging Data sets by inner join
@@ -558,56 +654,193 @@ Merging Data sets by inner join
 ```{r}
 Merged_DataSet <-  data_dec21 %>% inner_join(poverty_data_county,by="FIPS_code")
 rm(poverty_data_large)
-
 ```
 
 
-Merging these data sets will tell us for each observation, what the percentage of people in the county live in poverty
 
+
+## FI_orNot Variable
 ```{r}
 
 
+#Creating d5 which holds the 10 counties with the highest percentage of food insecure
+d4 <- Merged_DataSet %>% filter(!is.na(FIPS_code),!is.na(FI_orNot)) %>% 
+  group_by(Stabr,FIPS_code, FI_orNot) %>% 
+  summarise(count = n()) %>% 
+  mutate(perc_FI = count/sum(count))
+
+
+d5 <- d4 %>% filter(FI_orNot == "Food Insecure") %>% arrange(desc(perc_FI))
+
+d5 <- head(d5, 10)
+
+#Top ten food insecure counties I have data on
+d5 %>% filter(FI_orNot == "Food Insecure") %>% 
+  ggplot(aes(x = fct_reorder(FIPS_code, perc_FI, .desc = TRUE), y = perc_FI*100)) +
+  geom_bar(stat = "identity", width = .7, fill = "black") +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) +
+  labs(title = "Top Ten Food Insecure Counties",y = "Percentage Food Insecure of County", 
+       x = "County FIPS Code ",
+       caption = "Source: Current Population Survey Food Security Supplements") +
+  geom_text(aes(label = Stabr), nudge_y = -3, color = "white") #adds State abbreviation to plot
+
 ```
 
 
 
 
 
+This bar graph shows the top 10 counties in the data for food insecurity, specifically using the FI_orNot variable, and looking at the percentage of that county in the data that is food insecure. One can look up more information on these counties using the FIPS code shown on the graph. These FIPS codes are standardized across the U.S. The abbreviation of the respective States was also added to the plot. This plot shows two counties from Texas in the top 10, as well as two counties from California. 
+
+
+
+RACE:
+```{r}
+
+# returns a data_frame that has the percentage of each race that is food insecure or not
+d2 <- Merged_DataSet %>% filter(!is.na(Race),!is.na(FI_orNot)) %>% 
+  group_by(Race, FI_orNot) %>% 
+  summarise(count = n()) %>% 
+  mutate(perc_FIofRace = count/sum(count))
+
+#ggplot for percentage of each race that is food insecure
+#d2 %>% filter(FI_orNot == "Food Insecure") %>% 
+#  ggplot(aes(x = fct_reorder(Race, perc_FIofRace, .desc = TRUE), y = perc_FIofRace*100)) +
+#  geom_bar(stat = "identity", width = .7) +
+#  theme(axis.text.x = element_text(angle=70, vjust=1, hjust=1)) +
+#  labs(title = "Food Insecurity and Race",y = "Percentage Food Insecure ", 
+#      caption = "Source: Current Population Survey Food Security Supplements") 
+  
+
+#now find the racial makeup of those counties, d6 holds the racial makeup for all counties with data
+d6 <- Merged_DataSet %>% filter(!is.na(FIPS_code),!is.na(FI_orNot), !is.na(Race)) %>% 
+  group_by(Stabr,FIPS_code, Race) %>% 
+  summarise(count = n()) %>% 
+  mutate(perc_RaceCounty = count/sum(count))
+
+#Merging data sets to create
+Merged_FICounty_Race <- d5 %>% inner_join(d6,by="FIPS_code")
+
+
+#Racial Makeup of 10 most food insecure counties by percentage
+Merged_FICounty_Race %>%
+  ggplot(aes(x = fct_reorder(FIPS_code, perc_FI, .desc = TRUE), y = perc_RaceCounty*100, fill = Race)) +
+  geom_bar(stat = "identity", width = .7, color = "black") +
+  labs(title = "Racial Demographics of 10 Most Food Insecure Counties",
+       x = "County FIPS Code in Descending order of Food Insecurity",
+       y = "Percentage of County Population",
+       caption = "Source: Current Population Survey Food Security Supplements") +
+  scale_fill_colorblind() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) #adjusts the FIPS code angles
+ 
+  
+
+```
 
 
 
 
 
+The top 10 food insecure counties in the data were taken then and put in the exact same order as previously listed, as in descending order from most food insecure as a percentage of the population to least. We now look at the data within these food insecure counties to look at racial demographics. In a couple of the counties there is a large Black population, which would be consistent with earlier data exploration findings of the association between food insecurity and race. 
+
+Looking at the data directly the confidence of these percentages being accurate to the real county demographics is very questionable. In 39103 there was only 7 people surveyed, all of which were white. A very small sample will not give us high confidence in neither the food insecurity proportion nor the racial demographic spread. Unique county codes had to be created from code and do not exist originally in the Current Population Food Security Supplements, and so I determine that the survery was most likley not intended for county level descriptions. 
+
+
+This racial makeup data does not take into account Hispanic status:
+
+HISPANIC
+```{r, warning= FALSE}
+
+#creating a data frame that has the percentage hispanic in each in all counties with data
+d7 <- Merged_DataSet %>% filter(!is.na(FIPS_code),!is.na(FI_orNot), !is.na(Hispanic)) %>% 
+  group_by(Stabr,FIPS_code, Hispanic) %>% 
+  summarise(count = n()) %>% 
+  mutate(perc_HispanicCounty = count/sum(count))
+
+d8 <- d7 %>% filter(Hispanic == "Hispanic")
+
+#Merging to create a new data from top 10 most food insecure counties with 
+Merged_FICounty_Hispanic_Race <- d5 %>% inner_join(d8,by="FIPS_code")
+
+#PIE chart for Hispanic ID proportion of county
+d7 %>%  filter(FIPS_code == "06053") %>% ggplot(aes(x = "", y = perc_HispanicCounty, fill = Hispanic)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start=0) + 
+  geom_text(aes(label = paste0(round(perc_HispanicCounty*100, 1), "%")), position = position_stack(vjust=0.5), color = "white") + 
+  labs(x =NULL, y = NULL, fill = NULL,
+    title = "Percent Hispanic \n of County (06053)",
+    caption = "Source: Current Population Survey Food Security Supplements") +
+  theme_few() +
+  scale_fill_colorblind() +
+  theme(plot.title = element_text(hjust = 0.5, vjust = 0.5), plot.caption = element_text(hjust = 0.5, vjust = 0.5))
+
+```
+Hispanic identification is not coded along with race, as the data documentation explains that any race can be Hispanic. But looking at the racial categories drawn in the data, it is missing some categories that live in the minds of the average American. Hispanic ID is associated with some of these categories. 
+
+Looking at the county 06053 from the top ten food insecure counties, which is Monterey County, CA, the population is 57% Hispanic. This county also had a low percentage of non-white residents compared to some other counties in the top ten. 
 
 
 
-
-
-## New Data Set, % in poverty by State
-
+RACE AND HISPANIC
 ```{r, warning = FALSE}
-#Pct_in_poverty_State <- read.csv("C:/Users/foste/Desktop/418 final project folder/Pct_in_poverty_State - Sheet1.csv")
 
-#summary(Pct_in_poverty_State)
+#merging data to have both race and Hispanic percentages in a dataframe
+merged_hisp_race_data <- Merged_FICounty_Race %>% full_join(Merged_FICounty_Hispanic_Race,by="FIPS_code")
+
+#Racial and Hispanic Percentage of 10 most food insecure counties
+merged_hisp_race_data %>%
+  ggplot(aes(x = fct_reorder(FIPS_code, perc_FI.x, .desc = TRUE),y = perc_RaceCounty*100, fill = Race)) +
+  geom_col(stat = "identity", width = .7, color = "black") +
+  labs(title = "Racial and Hispanic Demographics (Separately) of\n 10 Most Food Insecure Counties",
+       x = "County FIPS Code in Descending order of Food Insecurity",
+       y = "Percentage of County Population",
+       caption = "Source: Current Population Survey Food Security Supplements") +
+  scale_fill_colorblind() + 
+  geom_col(aes(y = perc_HispanicCounty*100, fill = "Hispanic"), #Adding another column to the plot, Hispanic percent
+         width = 0.3,
+         position = position_nudge(x = 0.3), #Adjusting the position of that column
+         color = "black") +
+   theme_bw() +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) #adjusts the FIPS code angles
+ 
+ 
+
+
 ```
 
-Pivot Longer to change shape of Data Set
+
+
+We now overlay the percentage of the county that is Hispanic onto the ggplot containing racial demographic proportions. The color scheme is reorganized to accomidate the color of the Hispanic bar. Percentage Hispanic is a separate variable to the percentage of each race in the "Race" variable. If this plot is not read correctly then one could have incorrect interpretations about what percentage of "White Only" persons are Hispanic vs. percentage of "Black Only." The second bar indicating Hispanic ID is also not meant to be stacked on top of the other Race levels (this would indicate that only the white coded population is Hispanic which is not true for every county).
+
+If more coding was done, the height of each Hispanic bar could be raised or lowered depending on the share of each coded race (for a specific county) that is Hispanic. Data is available in the CPS to do so. 
+
+In counties such as 48135 and 06053 there is a large percentage of Hispanic people, while county 39103 has a completely White and non-Hispanic survey sample. The survey sample is very small, but not far from the demographics listed on the county's Wikipedia: https://en.wikipedia.org/wiki/Medina_County,_Ohio. 
+
+Based on the visuals of this plot, Hispanic identity most likely is a piece of the puzzle left out by CPS Racial Demographic descriptions of food insecurity in Counties. Those looking to demonstrate disparities caused by historical or current discrimination should take this into account. 
+
+
+
+
+## Pivoting Wider 
 
 ```{r}
-#Pct_in_poverty_State <- Pct_in_poverty_State %>%
-#pivot_longer(names_from = Stabr, values_from = Pct_in_poverty)
+
+# returns a data_frame that has the percentage of each Sex that is food insecure or not
+d3 <- Merged_DataSet %>% filter(!is.na(Sex),!is.na(FI_orNot)) %>% 
+  group_by(Sex, FI_orNot) %>% 
+  summarise(count = n()) %>% 
+  mutate(perc_FIofSex = count/sum(count))
+
+
+#pivot the data frame into a wide format
+d3_wider <- d3 %>% 
+  pivot_wider(
+    names_from = FI_orNot, 
+    values_from = count
+  )
+
+glimpse(d3_wider)
+
 ```
 
-
-```{r}
-
-#Pct_in_poverty_State %>% ggplot(aes(x = Stabr, y = pct_in_poverty)) +
-#geom_col(fill = "dodgerblue", color = "black")+
-#labs(title = "% in poverty by State",
-#caption = "The American Community servey",
-#x = "State",
-#y = "% in Poverty")
-
-
-```
 
